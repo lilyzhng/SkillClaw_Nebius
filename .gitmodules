@@ -1,0 +1,3 @@
+[submodule "maniskill-tidyverse"]
+	path = maniskill-tidyverse
+	url = https://github.com/shaoyifei96/maniskill-tidyverse.git
