@@ -381,6 +381,7 @@ tr.highlight td { color: var(--green); }
   .panel { padding: 24px 20px; }
   .inline-grid-2 { grid-template-columns: 1fr !important; }
   .flow-row { flex-wrap: wrap; gap: 8px; }
+  .video-grid-2 { grid-template-columns: 1fr !important; }
 }
 @media (max-width: 480px) {
   .container { padding: 0 12px; }
@@ -969,6 +970,74 @@ toward a goal position.
     </div>
   </div>
 </div>
+
+<!-- ── Subsection: Kitchen — Collision Free Motion Planning ── -->
+<div class="panel fade-in">
+  <div class="window-dots">
+    <div class="dot dot-red"></div>
+    <div class="dot dot-yellow"></div>
+    <div class="dot dot-green"></div>
+  </div>
+  <div class="panel-title">Kitchen Environment &mdash; Collision-Free Motion Planning</div>
+  <p style="color:var(--text-dim); font-size:13px; margin-bottom:20px; line-height:1.6;">
+    Primitive skill: collision-free pick-and-place in a kitchen environment (RoboCasa). The robot plans and executes trajectories that avoid obstacles while manipulating objects.
+  </p>
+  <div style="text-align:center;">
+    <video controls autoplay muted loop playsinline style="max-width:100%; border-radius:8px; border:1px solid #2a2a2a;">
+      <source src="videos/collision_free_motion_planning.mp4" type="video/mp4">
+    </video>
+  </div>
+</div>
+
+<!-- ── Subsection: Kitchen — Skill Decomposition ── -->
+<div class="panel fade-in">
+  <div class="window-dots">
+    <div class="dot dot-red"></div>
+    <div class="dot dot-yellow"></div>
+    <div class="dot dot-green"></div>
+  </div>
+  <div class="panel-title">Kitchen Environment &mdash; Auto Skill Decomposition</div>
+  <p style="color:var(--text-dim); font-size:13px; margin-bottom:20px; line-height:1.6;">
+    Given the task <strong style="color:var(--text-light);">"open all kitchen fixtures"</strong>, the system auto-decomposes into a sequence of reusable skills and composes them into a full pipeline.
+  </p>
+
+  <!-- Skill decomposition table -->
+  <table style="margin-bottom:28px;">
+    <thead><tr><th>#</th><th>Skill</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td class="hl-cyan">1</td><td>Shared skill infrastructure</td><td class="hl">Done</td></tr>
+      <tr><td class="hl-cyan">2</td><td>Navigate + reach handle</td><td class="hl">Done</td></tr>
+      <tr><td class="hl-cyan">3</td><td>Grasp handle</td><td class="hl">Done</td></tr>
+      <tr><td class="hl-cyan">4</td><td>Pull drawer open</td><td class="hl">Done <span style="color:var(--text-dim);">(6/8 main wall drawers)</span></td></tr>
+      <tr><td class="hl-cyan">5</td><td>Swing cabinet door open</td><td class="hl">Done <span style="color:var(--text-dim);">(3/4 main wall left-doors)</span></td></tr>
+      <tr><td class="hl-cyan">6</td><td>Compose open-all</td><td class="hl-amber">9/22 success, 1 partial, 12 reach_fail</td></tr>
+    </tbody>
+  </table>
+
+  <!-- Skill videos side by side -->
+  <div class="video-grid-2" style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+    <div>
+      <div style="font-family:var(--font-mono); font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--green); margin-bottom:10px;">
+        Skill 4 &mdash; Pull Drawer Open
+      </div>
+      <video controls autoplay muted loop playsinline style="width:100%; border-radius:8px; border:1px solid #2a2a2a;">
+        <source src="videos/pull_drawer_open.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div>
+      <div style="font-family:var(--font-mono); font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--cyan); margin-bottom:10px;">
+        Skill 5 &mdash; Swing Cabinet Door Open
+      </div>
+      <video controls autoplay muted loop playsinline style="width:100%; border-radius:8px; border:1px solid #2a2a2a;">
+        <source src="videos/swing_cabinet_open.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 06: THE SKILL FORMAT                                       -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
 
 <!-- ═══════════════════════════════════════════════════════════════════ -->
 <!-- SECTION 07: BUILT WITH                                             -->
