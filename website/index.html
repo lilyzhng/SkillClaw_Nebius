@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SkillClaw — Compositional Grammar Engine for Robotics</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F5F0E8;
+  --charcoal: #1E1E1E;
+  --panel: #252525;
+  --text: #1E1E1E;
+  --text-light: #E0DCD4;
+  --text-dim: #888;
+  --green: #39FF14;
+  --cyan: #00E5FF;
+  --amber: #FFB800;
+  --red: #FF3B3B;
+  --purple: #c084fc;
+  --font-mono: 'Space Mono', 'SF Mono', 'Menlo', monospace;
+  --font-sans: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg); font-family: var(--font-sans); color: var(--text); line-height: 1.6; overflow-x: hidden; max-width: 100vw; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+/* ── Chrome ── */
+.window-dots { display: flex; gap: 7px; margin-bottom: 18px; }
+.dot { width: 12px; height: 12px; border-radius: 50%; }
+.dot-red { background: #FF5F57; }
+.dot-yellow { background: #FFBD2E; }
+.dot-green { background: #28C840; }
+
+/* ── Section headers ── */
+.section-header {
+  font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+  letter-spacing: 4px; text-transform: uppercase; color: var(--text-dim);
+  margin-bottom: 24px; margin-top: 64px;
+}
+.section-header span { color: var(--amber); }
+
+/* ── Panels ── */
+.panel {
+  background: var(--charcoal); border-radius: 10px;
+  padding: 32px 36px; margin-bottom: 28px;
+}
+.panel-title {
+  font-family: var(--font-sans); font-size: 15px; font-weight: 600;
+  color: var(--cyan); margin-bottom: 24px; line-height: 1.4;
+}
+
+/* ══════════════════════════════════════════════ */
+/* HERO                                          */
+/* ══════════════════════════════════════════════ */
+.teaser {
+  background: var(--charcoal); padding: 56px 48px 48px; margin-bottom: 40px;
+  position: relative; overflow: hidden;
+}
+.hero-split {
+  display: grid; grid-template-columns: 2fr 3fr; gap: 32px; align-items: center;
+}
+.hero-left { padding-right: 8px; }
+.hero-label {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: 4px; text-transform: uppercase; color: #555; margin-bottom: 14px;
+}
+.hero-title-row {
+  display: flex; align-items: center; gap: 10px;
+}
+.hero-title {
+  font-family: var(--font-sans); font-size: 56px; font-weight: 700;
+  color: var(--text-light); letter-spacing: -1px; line-height: 1.1;
+}
+.claw-kaomoji {
+  font-family: var(--font-mono); font-size: 24px; font-weight: 700;
+  color: var(--text-light); white-space: nowrap;
+  flex-shrink: 0;
+  display: inline-block;
+  width: 10ch;
+  text-align: center;
+}
+.hero-subtitle {
+  font-family: var(--font-sans); font-size: 44px; font-weight: 700;
+  color: var(--cyan); letter-spacing: -1px; line-height: 1.1;
+  margin-bottom: 20px;
+}
+.hero-desc {
+  font-family: var(--font-sans); font-size: 15px; color: var(--text-dim);
+  line-height: 1.6; margin-bottom: 28px;
+}
+.hero-stats {
+  display: flex; gap: 32px;
+}
+.hero-stat-num {
+  font-family: var(--font-mono); font-size: 32px; font-weight: 700;
+  color: var(--green); line-height: 1;
+}
+.hero-stat-label {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim);
+  margin-top: 4px;
+}
+
+/* Hero card: composition demo */
+.hero-card {
+  background: #181818; border-radius: 10px; padding: 24px 28px;
+  border: 1px solid #2a2a2a;
+}
+.hero-prompt {
+  font-family: var(--font-mono); font-size: 14px; font-weight: 700;
+  color: var(--green); margin-bottom: 16px;
+}
+.term-cursor {
+  display: inline-block; width: 9px; height: 18px;
+  background: var(--green); animation: blink 1s step-end infinite;
+  vertical-align: text-bottom; margin-left: 2px;
+}
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+.hero-tree {
+  font-family: var(--font-mono); font-size: 12px; line-height: 1.8;
+  color: var(--text-dim);
+}
+.tree-row { display: flex; align-items: center; gap: 6px; }
+.tree-indent { padding-left: 20px; }
+.tree-branch { color: #444; user-select: none; }
+.tree-name { color: var(--text-light); }
+.tree-arrow { color: #555; }
+.tree-ref { color: var(--text-dim); }
+.tree-dim { color: #555; font-size: 10px; }
+.tree-check { color: var(--green); font-size: 11px; }
+
+.hero-pipeline {
+  display: flex; align-items: center; justify-content: center; gap: 0; flex-wrap: wrap;
+  font-family: var(--font-mono); font-size: 11px;
+  margin-top: 20px; padding-top: 20px; border-top: 1px solid #2a2a2a;
+}
+.hero-pipe-step {
+  color: var(--green); padding: 5px 10px;
+  border: 1px solid rgba(57,255,20,0.25); border-radius: 3px;
+}
+.hero-pipe-arrow { color: var(--text-dim); padding: 0 6px; }
+
+/* ══════════════════════════════════════════════ */
+/* TABLES                                        */
+/* ══════════════════════════════════════════════ */
+table {
+  width: 100%; border-collapse: collapse; font-family: var(--font-mono); font-size: 13px;
+}
+th {
+  color: var(--text-dim); font-weight: 400; text-align: left; padding: 6px 8px;
+  border-bottom: 1px solid #333; font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
+}
+td { color: var(--text-light); padding: 10px 8px; border-bottom: 1px solid #2a2a2a; }
+tr.highlight td { color: var(--green); }
+.hl { color: var(--green); font-weight: 600; }
+.hl-cyan { color: var(--cyan); font-weight: 600; }
+.hl-amber { color: var(--amber); font-weight: 600; }
+.hl-red { color: var(--red); }
+.hl-purple { color: var(--purple); font-weight: 600; }
+
+/* ══════════════════════════════════════════════ */
+/* VS LAYOUT                                     */
+/* ══════════════════════════════════════════════ */
+.vs-layout {
+  display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; align-items: stretch;
+}
+.vs-box {
+  background: var(--panel); border-radius: 8px; padding: 20px 24px;
+  border-top: 3px solid var(--text-dim);
+}
+.vs-box.left { border-top-color: var(--text-dim); }
+.vs-box.right { border-top-color: var(--green); }
+.vs-box-title {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px;
+}
+.vs-box.left .vs-box-title { color: var(--text-dim); }
+.vs-box.right .vs-box-title { color: var(--green); }
+.vs-arrow {
+  font-size: 24px; color: var(--text-dim);
+  align-self: center; text-align: center;
+}
+.vs-list {
+  list-style: none; font-family: var(--font-sans); font-size: 13px;
+  color: var(--text-dim); line-height: 1.8;
+}
+.vs-list li::before {
+  content: ''; display: inline-block; width: 6px; height: 6px;
+  border-radius: 50%; margin-right: 10px; vertical-align: middle;
+}
+.vs-box.left .vs-list li::before { background: var(--text-dim); }
+.vs-box.right .vs-list li::before { background: var(--green); }
+
+/* ══════════════════════════════════════════════ */
+/* DOMAIN GRID                                   */
+/* ══════════════════════════════════════════════ */
+.domain-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+}
+.domain-col {
+  background: var(--panel); border-radius: 8px; padding: 16px;
+  border-top: 3px solid var(--text-dim);
+}
+.domain-col.d1 { border-top-color: var(--green); }
+.domain-col.d2 { border-top-color: var(--cyan); }
+.domain-col.d3 { border-top-color: var(--amber); }
+.domain-col.d4 { border-top-color: var(--purple); }
+.domain-title {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: 1px; margin-bottom: 10px;
+}
+.domain-col.d1 .domain-title { color: var(--green); }
+.domain-col.d2 .domain-title { color: var(--cyan); }
+.domain-col.d3 .domain-title { color: var(--amber); }
+.domain-col.d4 .domain-title { color: var(--purple); }
+.domain-col p {
+  font-family: var(--font-sans); font-size: 12px; color: var(--text-dim); line-height: 1.5;
+}
+
+/* ══════════════════════════════════════════════ */
+/* CODE BLOCK                                    */
+/* ══════════════════════════════════════════════ */
+.code-block {
+  background: #181818; border-radius: 8px; padding: 20px 24px;
+  border: 1px solid #2a2a2a;
+  font-family: var(--font-mono); font-size: 12px; line-height: 1.7;
+  color: var(--text-dim);
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+}
+.code-block .fn { color: var(--cyan); }
+.code-block .str { color: var(--green); }
+.code-block .cmt { color: #555; }
+
+/* ══════════════════════════════════════════════ */
+/* SPONSOR GRID                                  */
+/* ══════════════════════════════════════════════ */
+.sponsor-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+}
+.sponsor-card {
+  background: var(--panel); border-radius: 8px; padding: 20px;
+  text-align: center; border: 1px solid #2a2a2a;
+  transition: border-color 0.25s;
+}
+.sponsor-card:hover { border-color: #444; }
+.sponsor-name {
+  font-family: var(--font-sans); font-size: 16px; font-weight: 600;
+  color: var(--text-light); margin-bottom: 6px;
+}
+.sponsor-role {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase; color: var(--text-dim);
+}
+.sponsor-card.primary { border-color: var(--green); }
+.sponsor-card.primary .sponsor-name { color: var(--green); }
+
+/* ══════════════════════════════════════════════ */
+/* CHECKLIST                                     */
+/* ══════════════════════════════════════════════ */
+.check-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+}
+.check-col {
+  background: var(--panel); border-radius: 8px; padding: 20px 24px;
+}
+.check-col-title {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px;
+}
+.check-list {
+  list-style: none; font-family: var(--font-sans); font-size: 13px;
+  color: var(--text-dim); line-height: 2;
+}
+.check-list li::before {
+  content: '[ ]'; font-family: var(--font-mono); font-size: 11px;
+  color: var(--green); margin-right: 10px; opacity: 0.6;
+}
+
+/* ── Footer ── */
+.footer {
+  text-align: center; padding: 40px;
+  font-family: var(--font-mono); font-size: 11px; color: var(--text-dim);
+}
+.footer a { color: var(--cyan); text-decoration: none; }
+
+/* ── Fade-in on scroll ── */
+.fade-in {
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-in.visible {
+  opacity: 1; transform: translateY(0);
+}
+
+@media (max-width: 900px) {
+  .hero-split { grid-template-columns: 1fr; }
+  .hero-title { font-size: 36px; }
+  .hero-subtitle { font-size: 28px; }
+  .vs-layout { grid-template-columns: 1fr; }
+  .vs-arrow { display: none; }
+  .domain-grid { grid-template-columns: 1fr 1fr; }
+  .sponsor-grid { grid-template-columns: 1fr 1fr; }
+  .check-grid { grid-template-columns: 1fr; }
+  .teaser { padding: 40px 20px 36px; }
+  .panel { padding: 24px 20px; }
+  .inline-grid-2 { grid-template-columns: 1fr !important; }
+}
+@media (max-width: 480px) {
+  .container { padding: 0 12px; }
+  .teaser { padding: 32px 12px 28px; }
+  .panel { padding: 20px 14px; }
+  .hero-title { font-size: 28px; }
+  .hero-subtitle { font-size: 22px; }
+  .hero-desc { font-size: 14px; }
+  .hero-stats { gap: 16px; flex-wrap: wrap; }
+  .hero-stat-num { font-size: 24px; }
+  .hero-title-row { flex-wrap: wrap; }
+  .claw-kaomoji { font-size: 18px; width: auto; }
+  .hero-card { padding: 16px 14px; }
+  .hero-prompt { font-size: 12px; word-break: break-all; }
+  .hero-tree { font-size: 11px; overflow-x: auto; }
+  .hero-pipeline { font-size: 10px; gap: 0; }
+  .hero-pipe-step { padding: 4px 6px; font-size: 10px; }
+  .hero-pipe-arrow { padding: 0 3px; }
+  .domain-grid { grid-template-columns: 1fr; }
+  .sponsor-grid { grid-template-columns: 1fr; }
+  .code-block { padding: 14px 12px; font-size: 11px; overflow-x: auto; white-space: pre; }
+  .section-header { font-size: 11px; letter-spacing: 2px; }
+  table { font-size: 11px; display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  thead, tbody, tr { min-width: 100%; }
+  th, td { padding: 8px 6px; white-space: nowrap; }
+  .vs-list { font-size: 12px; }
+  .panel-title { font-size: 13px; }
+  .inline-grid-2 { grid-template-columns: 1fr !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- HERO                                                               -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="teaser">
+  <div class="container">
+    <div class="hero-split">
+      <div class="hero-left">
+        <div class="hero-label">Nebius Build SF 2026</div>
+        <div class="hero-title-row">
+          <h1 class="hero-title">SkillClaw</h1>
+          <span class="claw-kaomoji" id="clawFace"></span>
+        </div>
+        <div class="hero-subtitle">Compositional Skill Agent</div>
+        <p class="hero-desc">
+          Teaching robots to compose new skills from primitives.
+          Not skill search (static) &mdash; skill <em>generation</em> (learned).
+        </p>
+        <div class="hero-stats">
+          <div><div class="hero-stat-num">10x</div><div class="hero-stat-label">Faster Dev</div></div>
+          <div><div class="hero-stat-num">527</div><div class="hero-stat-label">Skills (OXE)</div></div>
+          <div><div class="hero-stat-num">1000x</div><div class="hero-stat-label">Faster Sim</div></div>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="hero-prompt">&rsaquo; compose a skill that clears the table<span class="term-cursor"></span></div>
+        <div class="hero-tree">
+          <div class="tree-row">
+            <span class="tree-branch">&boxvr;&boxh;</span>
+            <span class="tree-name">clear-table</span>
+            <span class="tree-dim">(composition)</span>
+          </div>
+          <div class="tree-row tree-indent">
+            <span class="tree-branch">&boxvr;&boxh;</span>
+            <span class="tree-name">scan-surface</span>
+            <span class="tree-arrow">&rarr;</span>
+            <span class="tree-ref">tb-scan/main.py</span>
+            <span class="tree-check">&check;</span>
+          </div>
+          <div class="tree-row tree-indent">
+            <span class="tree-branch">&boxvr;&boxh;</span>
+            <span class="tree-name">pick-up</span>
+            <span class="tree-arrow">&rarr;</span>
+            <span class="tree-ref">tb-pick-up/main.py</span>
+            <span class="tree-check">&check;</span>
+          </div>
+          <div class="tree-row tree-indent">
+            <span class="tree-branch">&boxvr;&boxh;</span>
+            <span class="tree-name">place-in-bin</span>
+            <span class="tree-arrow">&rarr;</span>
+            <span class="tree-ref">tb-place/main.py</span>
+            <span class="tree-check">&check;</span>
+          </div>
+          <div class="tree-row tree-indent">
+            <span class="tree-branch">&boxur;&boxh;</span>
+            <span class="tree-name">loop-until-empty</span>
+            <span class="tree-dim">(new &mdash; composed)</span>
+            <span class="tree-check">&check;</span>
+          </div>
+        </div>
+        <div class="hero-pipeline">
+          <span class="hero-pipe-step">Discover Skills</span>
+          <span class="hero-pipe-arrow">&rarr;</span>
+          <span class="hero-pipe-step">Skill Composition</span>
+          <span class="hero-pipe-arrow">&rarr;</span>
+          <span class="hero-pipe-step">Skill Creation</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Punchline -->
+<div style="text-align:center; padding:48px 24px 32px; max-width:800px; margin:0 auto;">
+  <h2 style="font-family:var(--font-sans); font-size:26px; font-weight:700; color:var(--text); line-height:1.3; margin-bottom:12px;">
+    Robots can execute skills. They can't compose new ones.
+  </h2>
+  <p style="color:var(--text-dim); font-size:16px; line-height:1.6;">
+    Current systems chain existing skills by rules. SkillClaw trains robots to <em>learn</em>
+    compositional grammar &mdash; generating new skills from primitives via RL.
+  </p>
+</div>
+
+<div class="container">
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 01: CORE THESIS + ENVIRONMENT DESIGN                      -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section-header"><span>01</span> &mdash; Core Thesis</div>
+
+<div class="panel fade-in">
+  <div class="panel-title">RL environments don't just train policies &mdash; they can train skill composition itself</div>
+
+  <div class="vs-layout">
+    <div class="vs-box left">
+      <div class="vs-box-title">Traditional</div>
+      <ul class="vs-list">
+        <li>Give the robot a task</li>
+        <li>RL trains a single policy</li>
+        <li>Robot learns to do <strong style="color:var(--text-light)">this one thing</strong></li>
+      </ul>
+    </div>
+    <div class="vs-arrow">&rarr;</div>
+    <div class="vs-box right">
+      <div class="vs-box-title">SkillClaw</div>
+      <ul class="vs-list">
+        <li>Give the robot primitives + environment + reward</li>
+        <li>RL trains <strong style="color:var(--text-light)">composition ability</strong></li>
+        <li>Robot learns to create new skills from primitives</li>
+      </ul>
+    </div>
+  </div>
+
+  <p style="color:var(--text-dim); font-size:13px; margin-top:24px; line-height:1.6; font-style:italic;">
+    "The environment is a trigger, not a teacher" &mdash; Skill search is static (limited to existing skills). SkillClaw is generative (creates new ones).
+  </p>
+</div>
+
+<!-- Environment Design Principles -->
+<div class="panel fade-in">
+  <div class="window-dots">
+    <div class="dot dot-red"></div>
+    <div class="dot dot-yellow"></div>
+    <div class="dot dot-green"></div>
+  </div>
+  <div class="panel-title">Four Principles of Environment Design</div>
+
+  <div class="domain-grid">
+    <div class="domain-col d1">
+      <div class="domain-title">Provide Building Blocks</div>
+      <p>Tidybot skills, SDK docs, tools &mdash; but don't tell it how to assemble</p>
+    </div>
+    <div class="domain-col d2">
+      <div class="domain-title">Tell It Right or Wrong</div>
+      <p>Sim verification + per-step criteria feedback</p>
+    </div>
+    <div class="domain-col d3">
+      <div class="domain-title">Don't Tell It How</div>
+      <p>Agent discovers decomposition &rarr; recomposition on its own</p>
+    </div>
+    <div class="domain-col d4">
+      <div class="domain-title">Don't Tell It Where</div>
+      <p>Agent uses bash grep/find/cat to discover context</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 02: INSPIRATIONS                                           -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section-header"><span>02</span> &mdash; Inspirations</div>
+
+<!-- Autoresearch comparison -->
+<div class="panel fade-in">
+  <div class="panel-title">Autoresearch &times; Skill Composition &mdash; Same Design Philosophy</div>
+  <p style="color:var(--text-dim); font-size:13px; margin-bottom:20px; line-height:1.6;">
+    Karpathy's autoresearch shares the exact same environment design philosophy &mdash; same structure, different learning mechanism.
+  </p>
+  <table>
+    <thead><tr><th></th><th>Autoresearch</th><th>SkillClaw</th></tr></thead>
+    <tbody>
+      <tr><td class="hl-cyan">Building Blocks</td><td>ML components in train.py (arch, optimizer, hyperparams)</td><td>Robot/agent primitive skills</td></tr>
+      <tr><td class="hl-cyan">Feedback</td><td>val_bpb (single metric, fixed 5-min window)</td><td>Reward signal (per-step criteria)</td></tr>
+      <tr><td class="hl-cyan">No Instructions</td><td>Agent decides what to change and how to combine</td><td>Agent discovers decompose &rarr; recompose</td></tr>
+      <tr><td class="hl-cyan">Learning</td><td style="color:var(--text-dim)">Hill climbing (greedy search)</td><td class="hl">Skill climbing (RL)</td></tr>
+    </tbody>
+  </table>
+  <p style="color:var(--green); font-family:var(--font-mono); font-size:11px; margin-top:16px;">
+    Hill climbing &rarr; Skill climbing: not climbing the loss landscape, but climbing the composition space
+  </p>
+</div>
+
+<!-- Tidybot + Domain-Agnostic -->
+<div class="panel fade-in">
+  <div class="window-dots">
+    <div class="dot dot-red"></div>
+    <div class="dot dot-yellow"></div>
+    <div class="dot dot-green"></div>
+  </div>
+  <div class="panel-title">Tidybot Universe &mdash; The Gap SkillClaw Fills</div>
+
+  <div class="vs-layout" style="margin-bottom:28px;">
+    <div class="vs-box left">
+      <div class="vs-box-title">Tidybot Has</div>
+      <ul class="vs-list">
+        <li>Agent skills + Robot skills in one system</li>
+        <li>tidybot-bundle chaining</li>
+        <li>Skill catalog + wishlist</li>
+        <li>Rewind safety net</li>
+      </ul>
+    </div>
+    <div class="vs-arrow">&rarr;</div>
+    <div class="vs-box right">
+      <div class="vs-box-title">SkillClaw Adds</div>
+      <ul class="vs-list">
+        <li>Rule-based &rarr; <strong style="color:var(--text-light)">learned</strong> composition</li>
+        <li>Agent learns compositional grammar on its own</li>
+        <li>Domain-agnostic: plug in any set of primitives</li>
+        <li>RL environment for composition training</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="panel-title" style="color:var(--amber); margin-top:8px;">One Grammar, Any Domain</div>
+  <table>
+    <thead><tr><th></th><th>AI Agent Skills</th><th>Robot Skills</th></tr></thead>
+    <tbody>
+      <tr><td class="hl-amber">Primitives</td><td>tool calls (search, read, write, execute)</td><td>motor commands (grasp, move, rotate)</td></tr>
+      <tr><td class="hl-amber">Composition</td><td>workflow (search &rarr; parse &rarr; generate)</td><td>trajectory (approach &rarr; grasp &rarr; lift)</td></tr>
+      <tr><td class="hl-amber">Feedback</td><td>task success / output quality</td><td>task success / sensor signal</td></tr>
+      <tr><td class="hl-amber">Environment</td><td>code sandbox, file system, APIs</td><td>physics sim, real world</td></tr>
+    </tbody>
+  </table>
+  <p style="color:var(--text-dim); font-size:13px; margin-top:16px; line-height:1.6;">
+    What's being trained isn't domain knowledge &mdash; it's <strong style="color:var(--text-light)">composition itself</strong>. Already validated across law/IB/consulting via APEX.
+  </p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 03: TRAINING                                               -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section-header"><span>03</span> &mdash; Training Plan</div>
+
+<!-- Skip SFT -->
+<div class="panel fade-in">
+  <div class="panel-title">Skip SFT, Go Straight to GRPO</div>
+  <p style="color:var(--text-dim); font-size:13px; margin-bottom:20px; line-height:1.6;">
+    Key takeaway from OpenEnv hackathon: <strong style="color:var(--text-light)">SFT degrades the base model.</strong>
+    Instruct models already know tool calling format &mdash; GRPO directly teaches them to compose tools more efficiently.
+  </p>
+  <table style="max-width:500px;">
+    <thead><tr><th>SFT Samples</th><th>Score</th><th>vs Baseline (6.6)</th></tr></thead>
+    <tbody>
+      <tr class="highlight"><td>0 (instruct baseline)</td><td><strong>6.6</strong></td><td>&mdash;</td></tr>
+      <tr><td>100</td><td>5.4</td><td class="hl-red">-1.2</td></tr>
+      <tr><td>500</td><td>4.2</td><td class="hl-red">-2.4 (more = worse)</td></tr>
+      <tr><td>~645 (full)</td><td>5.0</td><td class="hl-red">-1.6</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Training Environment -->
+<div class="panel fade-in">
+  <div class="window-dots">
+    <div class="dot dot-red"></div>
+    <div class="dot dot-yellow"></div>
+    <div class="dot dot-green"></div>
+  </div>
+  <div class="panel-title">APEX Sandbox + Tidybot Skill Catalog</div>
+  <p style="color:var(--text-dim); font-size:13px; margin-bottom:20px; line-height:1.6;">
+    Architecture reuses the OpenEnv hackathon's ApexEnvironment (bash sandbox + step/reset lifecycle), just swap the building blocks:
+  </p>
+
+  <div class="code-block">
+    <span class="fn">reset()</span> <span class="cmt">&rarr; workspace with:</span><br>
+    &nbsp;&nbsp;<span class="str">skills/</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cmt"># Tidybot skill catalog</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&boxvr;&boxh; tb-pick-up/scripts/main.py<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&boxvr;&boxh; tb-center/scripts/main.py<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&boxur;&boxh; tb-grasp/scripts/main.py<br>
+    &nbsp;&nbsp;<span class="str">docs/</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cmt"># SDK guide, robot specs</span><br>
+    &nbsp;&nbsp;<span class="str">specs.md</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cmt"># "Compose a skill that clears the table"</span><br><br>
+    <span class="fn">step</span>(<span class="str">"cat specs.md"</span>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cmt">&rarr; task description</span><br>
+    <span class="fn">step</span>(<span class="str">"cat skills/tb-pick-up/..."</span>)&nbsp;&nbsp;&nbsp;&nbsp;<span class="cmt">&rarr; discover primitive</span><br>
+    <span class="fn">step</span>(<span class="str">"cat &gt; tb-clear-table/..."</span>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cmt">&rarr; compose new skill</span><br>
+    <span class="fn">step</span>(<span class="str">"done"</span>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cmt">&rarr; reward</span>
+  </div>
+</div>
+
+<!-- ManiSkill3 + Framework -->
+<div class="panel fade-in">
+  <div class="panel-title">ManiSkill3 (replacing MuJoCo) + Training Framework</div>
+  <p style="color:var(--text-dim); font-size:13px; margin-bottom:20px; line-height:1.6;">
+    Simon's feedback: MuJoCo is too slow. <strong style="color:var(--text-light)">ManiSkill3</strong> is GPU-native, 10-1000x faster.
+    ManiSkill-HAB already has TidyHouse, PrepareGroceries, SetTable &mdash; directly matching Tidybot use cases.
+  </p>
+
+  <div class="inline-grid-2" style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+    <div>
+      <table>
+        <thead><tr><th></th><th style="color:var(--green)">ManiSkill3</th><th>MuJoCo MJX</th></tr></thead>
+        <tbody>
+          <tr><td class="hl-cyan">Backend</td><td>NVIDIA PhysX (GPU)</td><td>JAX-based GPU</td></tr>
+          <tr><td class="hl-cyan">Parallel Rendering</td><td class="hl">Yes</td><td class="hl-red">No</td></tr>
+          <tr><td class="hl-cyan">Speed</td><td class="hl">10-1000x faster</td><td>Bottleneck</td></tr>
+          <tr><td class="hl-cyan">API</td><td>Gymnasium</td><td>Gymnasium</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <div class="vs-layout" style="grid-template-columns:1fr auto 1fr; gap:12px;">
+        <div class="vs-box right" style="padding:16px 18px;">
+          <div class="vs-box-title" style="font-size:10px;">Primary</div>
+          <ul class="vs-list" style="font-size:12px;">
+            <li>ms-swift GRPO + QLoRA</li>
+            <li>Qwen3-Coder-Next (80B MoE)</li>
+            <li>2-4 &times; B200 on Modal</li>
+          </ul>
+        </div>
+        <div class="vs-arrow" style="font-size:16px;">or</div>
+        <div class="vs-box left" style="padding:16px 18px;">
+          <div class="vs-box-title" style="font-size:10px;">Backup</div>
+          <ul class="vs-list" style="font-size:12px;">
+            <li>Unsloth + TRL GRPOTrainer</li>
+            <li>Qwen3-Coder-30B-A3B</li>
+            <li>1 &times; A100-80GB on Modal</li>
+          </ul>
+        </div>
+      </div>
+      <p style="color:var(--text-dim); font-family:var(--font-mono); font-size:10px; margin-top:12px; text-align:center;">
+        Train on Modal &rarr; Infer on Nebius &nbsp;|&nbsp; Scripts forked from OpenEnv
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 04: ARCHITECTURE + DEMO + SPONSORS                         -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section-header"><span>04</span> &mdash; Architecture &times; Sponsors</div>
+
+<div class="panel fade-in">
+  <div class="window-dots">
+    <div class="dot dot-red"></div>
+    <div class="dot dot-yellow"></div>
+    <div class="dot dot-green"></div>
+  </div>
+  <div class="panel-title">System Architecture &mdash; every component maps to a sponsor</div>
+
+  <div class="sponsor-grid">
+    <div class="sponsor-card primary">
+      <div class="sponsor-name">Nebius</div>
+      <div class="sponsor-role">Token Factory &mdash; Inference + Fine-tune</div>
+    </div>
+    <div class="sponsor-card" style="border-color:var(--cyan);">
+      <div class="sponsor-name" style="color:var(--cyan)">Tavily</div>
+      <div class="sponsor-role">AI Search (Nebius subsidiary)</div>
+    </div>
+    <div class="sponsor-card">
+      <div class="sponsor-name">LangChain</div>
+      <div class="sponsor-role">Agent Orchestration (LangGraph)</div>
+    </div>
+    <div class="sponsor-card">
+      <div class="sponsor-name">OpenRouter</div>
+      <div class="sponsor-role">Model Selection &mdash; Auto-routing</div>
+    </div>
+    <div class="sponsor-card">
+      <div class="sponsor-name">MiniMax</div>
+      <div class="sponsor-role">Voice Interface &mdash; Multimodal</div>
+    </div>
+    <div class="sponsor-card">
+      <div class="sponsor-name">Hugging Face</div>
+      <div class="sponsor-role">Deployment &mdash; Spaces</div>
+    </div>
+  </div>
+</div>
+
+<!-- Demo Strategy -->
+<div class="panel fade-in">
+  <div class="panel-title">Demo Strategy</div>
+  <div class="inline-grid-2" style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+    <div>
+      <ul class="vs-list" style="line-height:2.2;">
+        <li>Pre-train model on robotics data before the event</li>
+        <li>Live inference on stage: decompose &rarr; recompose &rarr; generalize</li>
+        <li>No live training or real robot needed &mdash; sim validation</li>
+        <li>Highlight GPU-intensive training (Nebius) + scalable product</li>
+      </ul>
+    </div>
+    <div>
+      <table>
+        <thead><tr><th>Layer</th><th>Demo</th><th>Feasibility</th></tr></thead>
+        <tbody>
+          <tr class="highlight"><td>A. Inference</td><td>Pre-trained model</td><td class="hl">Feasible</td></tr>
+          <tr><td>B. Training</td><td>Live RL training</td><td class="hl-red">Hard</td></tr>
+          <tr><td>C. Both</td><td>Before/after + live</td><td class="hl-amber">Most impressive</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 05: RESOURCES + CHECKLIST                                  -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section-header"><span>05</span> &mdash; Resources + Next Steps</div>
+
+<div class="panel fade-in">
+  <div class="panel-title">Datasets &amp; Repos</div>
+  <table>
+    <thead><tr><th>Resource</th><th>Content</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td class="hl-cyan">Open X-Embodiment</td><td>527 labeled skills, 22 robots, 21 institutions</td><td>Primary data source</td></tr>
+      <tr><td class="hl-cyan">RLBench</td><td>100 simulated manipulation tasks</td><td>Diversity supplement</td></tr>
+      <tr><td class="hl-cyan">APEX-v1-extended</td><td>100 tasks + gold rubrics</td><td>RL reward (validated)</td></tr>
+      <tr><td class="hl-cyan">ManiSkill3</td><td>GPU-parallel sim (SAPIEN/PhysX)</td><td>Reward verifier</td></tr>
+      <tr><td class="hl-cyan">Tidybot Universe</td><td>Skill catalog + wishlist</td><td>Training building blocks</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="panel fade-in">
+  <div class="window-dots">
+    <div class="dot dot-red"></div>
+    <div class="dot dot-yellow"></div>
+    <div class="dot dot-green"></div>
+  </div>
+  <div class="panel-title">Checklist</div>
+
+  <div class="check-grid">
+    <div class="check-col" style="border-top:3px solid var(--green);">
+      <div class="check-col-title" style="color:var(--green);">Environment</div>
+      <ul class="check-list">
+        <li>Download Tidybot tb- skills &rarr; workspace building blocks</li>
+        <li>Extract SDK guide + robot specs &rarr; docs/</li>
+        <li>Design 10-20 composition tasks</li>
+        <li>Write specs.md + rubric criteria</li>
+        <li>Integrate ManiSkill3 sim as reward verifier</li>
+      </ul>
+    </div>
+    <div class="check-col" style="border-top:3px solid var(--cyan);">
+      <div class="check-col-title" style="color:var(--cyan);">Execution</div>
+      <ul class="check-list">
+        <li>Fork &rarr; modal_skillclaw_grpo.py</li>
+        <li>Get Nebius compute credits</li>
+        <li>Align pitch narrative with Simon</li>
+        <li>Train composition model before event</li>
+        <li>Prepare inference demo</li>
+        <li>Integrate MiniMax voice interface</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- FOOTER                                                             -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="footer">
+  SkillClaw &middot; Nebius Build SF 2026 &middot;
+  Compositional Grammar Engine for Robotics
+</div>
+
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+// Scroll-triggered fade-in animations
+// ══════════════════════════════════════════════
+(function() {
+  var elements = document.querySelectorAll('.fade-in');
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15 });
+
+  elements.forEach(function(el) { observer.observe(el); });
+})();
+
+// Claw kaomoji — static
+document.getElementById('clawFace').textContent = '>( ^-^ )<';
+</script>
+</body>
+</html>
