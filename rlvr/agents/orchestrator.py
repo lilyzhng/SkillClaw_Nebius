@@ -166,12 +166,13 @@ def main():
     parser = argparse.ArgumentParser(
         description="SkillClaw Orchestrator — multi-agent task solving",
     )
-    parser.add_argument("--resources-url", default="http://localhost:8100")
+    parser.add_argument("--resources-url", default=None,
+                        help="Resources server URL (default: 8100 for tabletop, 8200 for kitchen)")
     parser.add_argument("--api-key", default=None)
     parser.add_argument("--model", default=DEFAULT_MODEL)
     parser.add_argument("--record-video", action="store_true")
     parser.add_argument(
-        "--tasks", nargs="+", required=True,
+        "--tasks", nargs="+", default=None,
         help="Tasks as EnvId-v1:seed (e.g. PullCube-v1:42). Seed defaults to 42.",
     )
     parser.add_argument(
@@ -182,6 +183,13 @@ def main():
         "--queue-timeout", type=float, default=120,
         help="Seconds PR/oversight agents wait for work before exiting",
     )
+    # Kitchen mode
+    parser.add_argument("--mode", default="tabletop", choices=["tabletop", "kitchen"],
+                        help="tabletop (Panda) or kitchen (RoboCasa + TidyVerse)")
+    parser.add_argument("--seed", type=int, default=0, help="Seed for kitchen mode")
+    parser.add_argument("--env-id", default=None, help="Override env ID")
+    parser.add_argument("--layout", type=int, default=None, help="RoboCasa kitchen layout")
+    parser.add_argument("--style", type=int, default=None, help="RoboCasa kitchen style")
 
     args = parser.parse_args()
     api_key = args.api_key or os.environ.get("OPENROUTER_API_KEY")
@@ -189,11 +197,35 @@ def main():
         print("ERROR: Set OPENROUTER_API_KEY or pass --api-key")
         exit(1)
 
+    if args.mode == "kitchen":
+        from .kitchen_orchestrator import run_agent as kitchen_run_agent
+        env_id = args.env_id or "RoboCasaKitchen-v1"
+        resources_url = args.resources_url or "http://localhost:8200"
+        result = asyncio.run(kitchen_run_agent(
+            resources_url=resources_url,
+            api_key=api_key,
+            env_id=env_id,
+            seed=args.seed,
+            model_id=args.model,
+            record_video=args.record_video,
+            layout=args.layout,
+            style=args.style,
+        ))
+        status = "SUCCESS" if result["task_success"] else "FAIL"
+        print(f"\nResult: {status}")
+        print(f"Sim attempts: {result['sim_attempts']}")
+        print(f"Total steps: {result['total_steps']}")
+        return
+
+    if not args.tasks:
+        parser.error("--tasks is required for tabletop mode")
+
+    resources_url = args.resources_url or "http://localhost:8100"
     tasks = [parse_task_spec(t) for t in args.tasks]
 
     if args.flywheel:
         asyncio.run(run_flywheel(
-            resources_url=args.resources_url,
+            resources_url=resources_url,
             api_key=api_key,
             tasks=tasks,
             model_id=args.model,
@@ -202,7 +234,7 @@ def main():
         ))
     else:
         asyncio.run(run_orchestrator(
-            resources_url=args.resources_url,
+            resources_url=resources_url,
             api_key=api_key,
             tasks=tasks,
             model_id=args.model,

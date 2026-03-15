@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<robot name="tidyverse_arm_bare">
+  <group name="arm">
+    <chain base_link="root_link" tip_link="panda_link8"/>
+  </group>
+  <group name="eef">
+    <chain base_link="root_link" tip_link="eef"/>
+  </group>
+  <disable_collisions link1="panda_link0" link2="panda_link1"/>
+  <disable_collisions link1="panda_link1" link2="panda_link2"/>
+  <disable_collisions link1="panda_link2" link2="panda_link3"/>
+  <disable_collisions link1="panda_link3" link2="panda_link4"/>
+  <disable_collisions link1="panda_link4" link2="panda_link5"/>
+  <disable_collisions link1="panda_link5" link2="panda_link6"/>
+  <disable_collisions link1="panda_link6" link2="panda_link7"/>
+  <disable_collisions link1="panda_link7" link2="panda_link8"/>
+  <disable_collisions link1="panda_link8" link2="robotiq_arg2f_base_link"/>
+  <disable_collisions link1="robotiq_arg2f_base_link" link2="eef"/>
+  <disable_collisions link1="robotiq_arg2f_base_link" link2="left_outer_knuckle"/>
+  <disable_collisions link1="robotiq_arg2f_base_link" link2="left_inner_knuckle"/>
+  <disable_collisions link1="robotiq_arg2f_base_link" link2="right_outer_knuckle"/>
+  <disable_collisions link1="robotiq_arg2f_base_link" link2="right_inner_knuckle"/>
+  <disable_collisions link1="left_outer_knuckle" link2="left_outer_finger"/>
+  <disable_collisions link1="left_outer_finger" link2="left_inner_finger"/>
+  <disable_collisions link1="left_inner_finger" link2="left_inner_finger_pad"/>
+  <disable_collisions link1="right_outer_knuckle" link2="right_outer_finger"/>
+  <disable_collisions link1="right_outer_finger" link2="right_inner_finger"/>
+  <disable_collisions link1="right_inner_finger" link2="right_inner_finger_pad"/>
+  <disable_collisions link1="left_inner_knuckle" link2="left_inner_finger"/>
+  <disable_collisions link1="right_inner_knuckle" link2="right_inner_finger"/>
+</robot>
