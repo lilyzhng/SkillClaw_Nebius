@@ -38,6 +38,7 @@ source: official participant email + cerebralvalley.ai/e/nebius-build-sf/details
 ## Rules
 
 - **Open source:** GitHub repo must be public
+- **New Work Only:** All projects must be started from scratch during the hackathon with no previous work.
 - **Team size:** Max 4
 - **Banned:** Projects that violate legal/ethical/platform policies or use unauthorized code/data/assets
 

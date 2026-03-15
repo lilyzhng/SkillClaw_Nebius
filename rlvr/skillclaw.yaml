@@ -1,0 +1,71 @@
+# SkillClaw RLVR Configuration (NeMo Gym format)
+#
+# Reference:
+#   - NeMo Gym: https://github.com/NVIDIA-NeMo/Gym
+#   - NeMo Gym env tutorials: https://docs.nvidia.com/nemo/gym/latest/environment-tutorials/index.html
+#   - NeMo Gym training tutorials: https://docs.nvidia.com/nemo/gym/latest/training-tutorials/index.html
+#   - Unsloth + NeMo Gym: https://unsloth.ai/docs/models/tutorials/nemotron-3#reinforcement-learning--nemo-gym
+
+skillclaw_resources_server:
+  resources_servers:
+    skillclaw:
+      entrypoint: resources_server.py
+      domain: robotics_manipulation
+      verified: false
+      description: "9 atomic robot primitives for ManiSkill3 manipulation tasks"
+
+skillclaw_agent:
+  responses_api_agents:
+    simple_agent:
+      entrypoint: agent_server.py
+      resources_server:
+        type: resources_servers
+        name: skillclaw_resources_server
+      model_server:
+        type: responses_api_models
+        name: policy_model
+      datasets:
+      - name: train
+        type: train
+        description: "14 ManiSkill tasks × 3 seeds"
+      - name: holdout
+        type: validation
+        description: "StackPyramid, PullCubeTool, PokeCube (unseen during training)"
+
+# Training config
+training:
+  algorithm: grpo
+  model: Qwen/Qwen3-Coder-30B
+  sft_warmstart: false  # Research evidence: direct GRPO > SFT→GRPO for tool calling
+  reward: binary  # task_success ? 1.0 : 0.0
+  group_size: 8
+  max_steps_per_episode: 50  # varies by task, see TASK_REGISTRY
+  phases:
+    - name: cold_start
+      tasks: [PickCube-v1, PushCube-v1]
+      description: "Learn basic tool calling patterns"
+    - name: expand
+      tasks: [PullCube-v1, StackCube-v1, PlaceSphere-v1, RollBall-v1]
+      description: "Learn diverse composition patterns"
+    - name: challenge
+      tasks: [PegInsertionSide-v1, PlugCharger-v1, TurnFaucet-v1, AssemblingKits-v1]
+      description: "Precision alignment, articulation, multi-object"
+  holdout_tasks: [StackPyramid-v1, PullCubeTool-v1, PokeCube-v1]
+
+# Baseline evaluation config
+baseline:
+  models:
+    - key: claude-sonnet-4
+      id: anthropic/claude-sonnet-4
+      role: upper_bound
+    - key: gpt-5.4
+      id: openai/gpt-5.4
+      role: frontier_comparison
+    - key: qwen3-coder-30b
+      id: qwen/qwen3-coder-30b
+      role: training_target
+    - key: minimax-m1
+      id: minimax/minimax-m1
+      role: sponsor_model
+  seeds: [42, 123, 456]
+  tasks: all  # all 14 from TASK_REGISTRY

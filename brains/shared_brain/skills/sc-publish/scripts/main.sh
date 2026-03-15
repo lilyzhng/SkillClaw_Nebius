@@ -1,15 +1,17 @@
 #!/bin/bash
-# Usage: bash brains/shared_brain/skills/sc-publish/scripts/main.sh <skill-name> <video-file> <description>
+# Usage: bash brains/shared_brain/skills/sc-publish/scripts/main.sh <skill-name> <video-file> <description> [trajectory-path]
 # Example: bash brains/shared_brain/skills/sc-publish/scripts/main.sh pull PullCube-v1_sess_abc.mp4 "Pull object to goal by grasping and dragging"
+# Example with explicit trajectory: bash brains/shared_brain/skills/sc-publish/scripts/main.sh pull PullCube-v1_sess_abc.mp4 "Pull object to goal" trajectories/solver_0/PullCube-v1_seed42_sc_abc.json
 
 set -e
 
 SKILL_NAME=$1
 VIDEO_FILE=$2
 DESCRIPTION=$3
+TRAJ_PATH=$4  # Optional: explicit trajectory path
 
 if [ -z "$SKILL_NAME" ] || [ -z "$VIDEO_FILE" ] || [ -z "$DESCRIPTION" ]; then
-    echo "Usage: bash brains/shared_brain/skills/sc-publish/scripts/main.sh <skill-name> <video-file> <description>"
+    echo "Usage: bash brains/shared_brain/skills/sc-publish/scripts/main.sh <skill-name> <video-file> <description> [trajectory-path]"
     echo "Example: bash brains/shared_brain/skills/sc-publish/scripts/main.sh pull PullCube-v1_sess_abc.mp4 \"Pull object to goal\""
     exit 1
 fi
@@ -55,10 +57,15 @@ git push -u origin "$BRANCH_NAME"
 COMMIT_SHA=$(git rev-parse HEAD)
 GIF_URL="https://raw.githubusercontent.com/$REPO/$COMMIT_SHA/demos/$GIF_FILE"
 
-# 9. Render trajectory (find latest trajectory file)
+# 9. Render trajectory
 echo "8. Rendering trajectory..."
 SCRIPT_DIR="$(dirname "$0")"
-LATEST_TRAJ=$(ls -t trajectories/*.json 2>/dev/null | head -1)
+# Use explicit trajectory path if provided, otherwise find latest
+if [ -n "$TRAJ_PATH" ] && [ -f "$TRAJ_PATH" ]; then
+    LATEST_TRAJ="$TRAJ_PATH"
+else
+    LATEST_TRAJ=$(ls -t trajectories/*.json trajectories/*/*.json 2>/dev/null | head -1)
+fi
 TRAJ_SECTION=""
 if [ -n "$LATEST_TRAJ" ]; then
     TRAJ_SECTION=$(python3 "$SCRIPT_DIR/render_trajectory.py" "$LATEST_TRAJ" 2>/dev/null || echo "")

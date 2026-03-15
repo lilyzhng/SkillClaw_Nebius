@@ -1,9 +1,24 @@
-__pycache__/
-*.pyc
+# Local-only files
 .env
+.env.*
 .DS_Store
-demos/
-trajectories/
-videos/
-*.mp4
-*.npy
+.claude/
+
+# Learning/research (Lily only)
+skill-claw.html
+archive/
+asset/
+env/
+
+# Submodules/repos
+ManiSkill/
+Tidybot-Universe/
+hand-draw/
+faea-sim/
+frameworks/
+
+# Python
+__pycache__/
+
+# Vercel
+.vercel/
