@@ -590,7 +590,7 @@ tr.highlight td { color: var(--green); }
   </div>
 
   <p style="color:var(--text-dim); font-size:13px; margin-top:24px; line-height:1.6; font-style:italic;">
-    Knowledge doesn't compound. Every new task is day zero.
+    Traditional approach: knowledge doesn't compound. Every new task is day zero.
   </p>
 </div>
 
@@ -635,91 +635,9 @@ tr.highlight td { color: var(--green); }
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════════════ -->
-<!-- SECTION 03: THE COMPOUNDING                                        -->
+<!-- SECTION 03: THE COLLECTIVE                                         -->
 <!-- ═══════════════════════════════════════════════════════════════════ -->
-<div class="section-header"><span>03</span> &mdash; The Compounding</div>
-
-<!-- Skills in Action -->
-<div class="panel fade-in">
-  <div class="panel-title">Skills compose. The agent reads existing skills, combines them, and solves novel tasks.</div>
-
-  <div class="demo-grid">
-    <div class="demo-card">
-      <img src="assets/PullCube-v1_sess_26e6ab0f.gif" alt="PullCube skill demo — robot arm pulling a cube to a target position" loading="lazy">
-      <div class="demo-info">
-        <div class="demo-skill">sc-pull</div>
-        <div class="demo-desc">Pull a cube onto a target. The agent learned to approach from the near side, grasp, and drag to the goal.</div>
-        <a class="demo-link" href="https://github.com/lilyzhng/SkillClaw/pull/9" target="_blank" rel="noopener">View PR &rarr;</a>
-      </div>
-    </div>
-    <div class="demo-card">
-      <img src="assets/LiftPegUpright-v1_sess_d7ad554d.gif" alt="LiftPegUpright skill demo — robot arm lifting a peg to upright position" loading="lazy">
-      <div class="demo-info">
-        <div class="demo-skill">sc-lift-peg-upright</div>
-        <div class="demo-desc">Move a peg laying on the table to any upright position. Side grasp + controlled rotation.</div>
-        <a class="demo-link" href="https://github.com/lilyzhng/SkillClaw/pull/13" target="_blank" rel="noopener">View PR &rarr;</a>
-      </div>
-    </div>
-    <div class="demo-card">
-      <img src="assets/StackCube-v1_sess_4e8ac677.gif" alt="StackCube skill demo — robot arm stacking one cube on another" loading="lazy">
-      <div class="demo-info">
-        <div class="demo-skill">sc-stack-cube</div>
-        <div class="demo-desc">Pick up a cube and stack it on another. The agent composed sc-pick with offset alignment to solve this.</div>
-      </div>
-    </div>
-    <div class="demo-card">
-      <img src="assets/PickSingleYCB-v1_sess_394d6ea7.gif" alt="PickSingleYCB skill demo — robot arm picking a YCB object" loading="lazy">
-      <div class="demo-info">
-        <div class="demo-skill">sc-pick-ycb</div>
-        <div class="demo-desc">Pick up a real-world YCB object. Solved on first attempt by adapting the sc-pick pattern.</div>
-        <a class="demo-link" href="https://github.com/lilyzhng/SkillClaw/pull/14" target="_blank" rel="noopener">View PR &rarr;</a>
-      </div>
-    </div>
-    <div class="demo-card">
-      <img src="assets/PlaceSphere-v1_sess_7a22dafd.gif" alt="PlaceSphere skill demo — robot arm placing a sphere into a bin" loading="lazy">
-      <div class="demo-info">
-        <div class="demo-skill">sc-place-sphere</div>
-        <div class="demo-desc">Grasp a sphere and place it into a target bin. Learned gentle placement to prevent rolling.</div>
-      </div>
-    </div>
-    <div class="demo-card">
-      <img src="assets/RollBall-v1_sess_ff068158.gif" alt="RollBall demo — robot learning physics of ball momentum" loading="lazy">
-      <div class="demo-info">
-        <div class="demo-skill" style="color: var(--amber);">sc-roll-ball <span style="font-size:10px; color:var(--text-dim);">(partial)</span></div>
-        <div class="demo-desc">The agent discovered momentum physics: &ldquo;gripper pushes ball when positioning!&rdquo; Pushed ball 56cm in correct direction. Needs force calibration (RL) to complete.</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Flywheel Results -->
-<div class="panel fade-in">
-  <div class="window-dots">
-    <div class="dot dot-red"></div>
-    <div class="dot dot-yellow"></div>
-    <div class="dot dot-green"></div>
-  </div>
-  <div class="panel-title">The Flywheel &mdash; Skills Compound</div>
-
-  <table>
-    <thead><tr><th>Task</th><th>Difficulty</th><th>Skills Available</th><th>Result</th></tr></thead>
-    <tbody>
-      <tr><td class="hl-cyan">PickCube</td><td>Easy</td><td>0 (cold start)</td><td class="hl">Solved</td></tr>
-      <tr><td class="hl-cyan">PushCube</td><td>Easy</td><td>1 (sc-pick)</td><td class="hl">Solved</td></tr>
-      <tr><td class="hl-cyan">StackCube</td><td>Medium</td><td>2 (sc-pick, sc-push)</td><td class="hl">Solved &mdash; reused sc-pick</td></tr>
-      <tr><td class="hl-cyan">PegInsertionSide</td><td>Hard</td><td>3</td><td class="hl">Solved &mdash; sub-mm precision</td></tr>
-    </tbody>
-  </table>
-
-  <p style="color:var(--green); font-family:var(--font-mono); font-size:11px; margin-top:16px;">
-    Flywheel mode: 4 tasks, 1/4 &rarr; 4/4 solved. Each success feeds the next.
-  </p>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<!-- SECTION 04: THE COLLECTIVE                                         -->
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<div class="section-header"><span>04</span> &mdash; The Collective</div>
+<div class="section-header"><span>03</span> &mdash; The Collective</div>
 
 <!-- Multi-Agent Architecture -->
 <div class="panel fade-in">
@@ -822,6 +740,152 @@ tr.highlight td { color: var(--green); }
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 04: THE COMPOUNDING                                        -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section-header"><span>04</span> &mdash; The Compounding</div>
+
+<!-- Skills in Action -->
+<div class="panel fade-in">
+  <div class="panel-title">Skills compose. The agent reads existing skills, combines them, and solves novel tasks.</div>
+
+  <div class="demo-grid">
+    <div class="demo-card">
+      <img src="assets/PullCube-v1_sess_26e6ab0f.gif" alt="PullCube skill demo — robot arm pulling a cube to a target position" loading="lazy">
+      <div class="demo-info">
+        <div class="demo-skill">sc-pull</div>
+        <div class="demo-desc">Pull a cube onto a target. The agent learned to approach from the near side, grasp, and drag to the goal.</div>
+        <a class="demo-link" href="https://github.com/lilyzhng/SkillClaw/pull/9" target="_blank" rel="noopener">View PR &rarr;</a>
+      </div>
+    </div>
+    <div class="demo-card">
+      <img src="assets/LiftPegUpright-v1_sess_d7ad554d.gif" alt="LiftPegUpright skill demo — robot arm lifting a peg to upright position" loading="lazy">
+      <div class="demo-info">
+        <div class="demo-skill">sc-lift-peg-upright</div>
+        <div class="demo-desc">Move a peg laying on the table to any upright position. Side grasp + controlled rotation.</div>
+        <a class="demo-link" href="https://github.com/lilyzhng/SkillClaw/pull/13" target="_blank" rel="noopener">View PR &rarr;</a>
+      </div>
+    </div>
+    <div class="demo-card">
+      <img src="assets/StackCube-v1_sess_4e8ac677.gif" alt="StackCube skill demo — robot arm stacking one cube on another" loading="lazy">
+      <div class="demo-info">
+        <div class="demo-skill">sc-stack-cube</div>
+        <div class="demo-desc">Pick up a cube and stack it on another. The agent composed sc-pick with offset alignment to solve this.</div>
+      </div>
+    </div>
+    <div class="demo-card">
+      <img src="assets/PickSingleYCB-v1_sess_394d6ea7.gif" alt="PickSingleYCB skill demo — robot arm picking a YCB object" loading="lazy">
+      <div class="demo-info">
+        <div class="demo-skill">sc-pick-ycb</div>
+        <div class="demo-desc">Pick up a real-world YCB object. Solved on first attempt by adapting the sc-pick pattern.</div>
+        <a class="demo-link" href="https://github.com/lilyzhng/SkillClaw/pull/14" target="_blank" rel="noopener">View PR &rarr;</a>
+      </div>
+    </div>
+    <div class="demo-card">
+      <img src="assets/PlaceSphere-v1_sess_7a22dafd.gif" alt="PlaceSphere skill demo — robot arm placing a sphere into a bin" loading="lazy">
+      <div class="demo-info">
+        <div class="demo-skill">sc-place-sphere</div>
+        <div class="demo-desc">Grasp a sphere and place it into a target bin. Learned gentle placement to prevent rolling.</div>
+      </div>
+    </div>
+    <div class="demo-card">
+      <img src="assets/RollBall-v1_sess_ff068158.gif" alt="RollBall demo — robot learning physics of ball momentum" loading="lazy">
+      <div class="demo-info">
+        <div class="demo-skill" style="color: var(--amber);">sc-roll-ball <span style="font-size:10px; color:var(--text-dim);">(partial)</span></div>
+        <div class="demo-desc">The agent discovered momentum physics: &ldquo;gripper pushes ball when positioning!&rdquo; Pushed ball 56cm in correct direction. Needs force calibration (RL) to complete.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Flywheel Results -->
+<div class="panel fade-in">
+  <div class="window-dots">
+    <div class="dot dot-red"></div>
+    <div class="dot dot-yellow"></div>
+    <div class="dot dot-green"></div>
+  </div>
+  <div class="panel-title">The Flywheel &mdash; Skills Compound</div>
+
+  <table>
+    <thead><tr><th>Task</th><th>Difficulty</th><th>Skills Available</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td class="hl-cyan">PickCube</td><td>Easy</td><td>0 (cold start)</td><td class="hl">Solved</td></tr>
+      <tr><td class="hl-cyan">PushCube</td><td>Easy</td><td>1 (sc-pick)</td><td class="hl">Solved</td></tr>
+      <tr><td class="hl-cyan">StackCube</td><td>Medium</td><td>2 (sc-pick, sc-push)</td><td class="hl">Solved &mdash; reused sc-pick</td></tr>
+      <tr><td class="hl-cyan">PegInsertionSide</td><td>Hard</td><td>3</td><td class="hl">Solved &mdash; sub-mm precision</td></tr>
+    </tbody>
+  </table>
+
+  <p style="color:var(--green); font-family:var(--font-mono); font-size:11px; margin-top:16px;">
+    Flywheel mode: 4 tasks, 1/4 &rarr; 4/4 solved. Each success feeds the next.
+  </p>
+</div>
+
+<!-- ── Subsection: Kitchen — Collision Free Motion Planning ── -->
+<div class="panel fade-in">
+  <div class="window-dots">
+    <div class="dot dot-red"></div>
+    <div class="dot dot-yellow"></div>
+    <div class="dot dot-green"></div>
+  </div>
+  <div class="panel-title">Kitchen Environment &mdash; Collision-Free Motion Planning</div>
+  <p style="color:var(--text-dim); font-size:13px; margin-bottom:20px; line-height:1.6;">
+    Primitive skill: collision-free pick-and-place in a kitchen environment (RoboCasa). The robot plans and executes trajectories that avoid obstacles while manipulating objects.
+  </p>
+  <div style="text-align:center;">
+    <video controls autoplay muted loop playsinline style="max-width:600px; width:100%; border-radius:8px; border:1px solid #2a2a2a;">
+      <source src="videos/collision_free_motion_planning.mp4" type="video/mp4">
+    </video>
+  </div>
+</div>
+
+<!-- ── Subsection: Kitchen — Skill Decomposition ── -->
+<div class="panel fade-in">
+  <div class="window-dots">
+    <div class="dot dot-red"></div>
+    <div class="dot dot-yellow"></div>
+    <div class="dot dot-green"></div>
+  </div>
+  <div class="panel-title">Kitchen Environment &mdash; Auto Skill Decomposition</div>
+  <p style="color:var(--text-dim); font-size:13px; margin-bottom:20px; line-height:1.6;">
+    Given the task <strong style="color:var(--text-light);">"open all kitchen fixtures"</strong>, the system auto-decomposes into a sequence of reusable skills and composes them into a full pipeline.
+  </p>
+
+  <!-- Skill decomposition table -->
+  <table style="margin-bottom:28px;">
+    <thead><tr><th>#</th><th>Skill</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td class="hl-cyan">1</td><td>Shared skill infrastructure</td><td class="hl">Done</td></tr>
+      <tr><td class="hl-cyan">2</td><td>Navigate + reach handle</td><td class="hl">Done</td></tr>
+      <tr><td class="hl-cyan">3</td><td>Grasp handle</td><td class="hl">Done</td></tr>
+      <tr><td class="hl-cyan">4</td><td>Pull drawer open</td><td class="hl">Done <span style="color:var(--text-dim);">(6/8 main wall drawers)</span></td></tr>
+      <tr><td class="hl-cyan">5</td><td>Swing cabinet door open</td><td class="hl">Done <span style="color:var(--text-dim);">(3/4 main wall left-doors)</span></td></tr>
+      <tr><td class="hl-cyan">6</td><td>Compose open-all</td><td class="hl-amber">9/22 success, 3 partial, 10 fail</td></tr>
+    </tbody>
+  </table>
+
+  <!-- Skill videos side by side -->
+  <div class="video-grid-2" style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+    <div>
+      <div style="font-family:var(--font-mono); font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--green); margin-bottom:10px;">
+        Skill 4 &mdash; Pull Drawer Open
+      </div>
+      <video controls autoplay muted loop playsinline style="width:100%; border-radius:8px; border:1px solid #2a2a2a;">
+        <source src="videos/pull_drawer_open.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div>
+      <div style="font-family:var(--font-mono); font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--cyan); margin-bottom:10px;">
+        Skill 5 &mdash; Swing Cabinet Door Open
+      </div>
+      <video controls autoplay muted loop playsinline style="width:100%; border-radius:8px; border:1px solid #2a2a2a;">
+        <source src="videos/swing_cabinet_open.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
 <!-- SECTION 05: RESULTS                                                -->
 <!-- ═══════════════════════════════════════════════════════════════════ -->
 <div class="section-header"><span>05</span> &mdash; Results</div>
@@ -889,77 +953,13 @@ tr.highlight td { color: var(--green); }
       <tr><td class="hl-cyan">Easy</td><td>PickCube, PushCube, PullCube</td><td class="hl">3/3 solved</td></tr>
       <tr><td class="hl-amber">Medium</td><td>StackCube, LiftPegUpright, PlaceSphere, PokeCube, RollBall, PickSingleYCB, TurnFaucet</td><td class="hl">4/7 solved</td></tr>
       <tr><td class="hl-red">Hard</td><td>PegInsertionSide, PlugCharger, StackPyramid, AssemblingKits</td><td class="hl">2/4 solved</td></tr>
-      <tr><td class="hl-purple">Kitchen</td><td>RoboCasaKitchen (mobile robot, 70+ fixtures)</td><td style="color:var(--text-dim);">in progress</td></tr>
+      <tr><td class="hl-purple">Kitchen</td><td>RoboCasaKitchen (mobile robot, 70+ fixtures)</td><td class="hl">9/22 fixtures opened</td></tr>
     </tbody>
   </table>
 
   <p style="color:var(--text-dim); font-size:13px; margin-top:16px; line-height:1.6;">
     The kitchen uses a completely different robot (mobile base + Panda arm). Same agent loop, same two tools. No retraining.
   </p>
-</div>
-
-<!-- ── Subsection: Kitchen — Collision Free Motion Planning ── -->
-<div class="panel fade-in">
-  <div class="window-dots">
-    <div class="dot dot-red"></div>
-    <div class="dot dot-yellow"></div>
-    <div class="dot dot-green"></div>
-  </div>
-  <div class="panel-title">Kitchen Environment &mdash; Collision-Free Motion Planning</div>
-  <p style="color:var(--text-dim); font-size:13px; margin-bottom:20px; line-height:1.6;">
-    Primitive skill: collision-free pick-and-place in a kitchen environment (RoboCasa). The robot plans and executes trajectories that avoid obstacles while manipulating objects.
-  </p>
-  <div style="text-align:center;">
-    <video controls autoplay muted loop playsinline style="max-width:100%; border-radius:8px; border:1px solid #2a2a2a;">
-      <source src="videos/collision_free_motion_planning.mp4" type="video/mp4">
-    </video>
-  </div>
-</div>
-
-<!-- ── Subsection: Kitchen — Skill Decomposition ── -->
-<div class="panel fade-in">
-  <div class="window-dots">
-    <div class="dot dot-red"></div>
-    <div class="dot dot-yellow"></div>
-    <div class="dot dot-green"></div>
-  </div>
-  <div class="panel-title">Kitchen Environment &mdash; Auto Skill Decomposition</div>
-  <p style="color:var(--text-dim); font-size:13px; margin-bottom:20px; line-height:1.6;">
-    Given the task <strong style="color:var(--text-light);">"open all kitchen fixtures"</strong>, the system auto-decomposes into a sequence of reusable skills and composes them into a full pipeline.
-  </p>
-
-  <!-- Skill decomposition table -->
-  <table style="margin-bottom:28px;">
-    <thead><tr><th>#</th><th>Skill</th><th>Status</th></tr></thead>
-    <tbody>
-      <tr><td class="hl-cyan">1</td><td>Shared skill infrastructure</td><td class="hl">Done</td></tr>
-      <tr><td class="hl-cyan">2</td><td>Navigate + reach handle</td><td class="hl">Done</td></tr>
-      <tr><td class="hl-cyan">3</td><td>Grasp handle</td><td class="hl">Done</td></tr>
-      <tr><td class="hl-cyan">4</td><td>Pull drawer open</td><td class="hl">Done <span style="color:var(--text-dim);">(6/8 main wall drawers)</span></td></tr>
-      <tr><td class="hl-cyan">5</td><td>Swing cabinet door open</td><td class="hl">Done <span style="color:var(--text-dim);">(3/4 main wall left-doors)</span></td></tr>
-      <tr><td class="hl-cyan">6</td><td>Compose open-all</td><td class="hl-amber">9/22 success, 3 partial, 10 fail</td></tr>
-    </tbody>
-  </table>
-
-  <!-- Skill videos side by side -->
-  <div class="video-grid-2" style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
-    <div>
-      <div style="font-family:var(--font-mono); font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--green); margin-bottom:10px;">
-        Skill 4 &mdash; Pull Drawer Open
-      </div>
-      <video controls autoplay muted loop playsinline style="width:100%; border-radius:8px; border:1px solid #2a2a2a;">
-        <source src="videos/pull_drawer_open.mp4" type="video/mp4">
-      </video>
-    </div>
-    <div>
-      <div style="font-family:var(--font-mono); font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--cyan); margin-bottom:10px;">
-        Skill 5 &mdash; Swing Cabinet Door Open
-      </div>
-      <video controls autoplay muted loop playsinline style="width:100%; border-radius:8px; border:1px solid #2a2a2a;">
-        <source src="videos/swing_cabinet_open.mp4" type="video/mp4">
-      </video>
-    </div>
-  </div>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════════════ -->
@@ -1061,28 +1061,13 @@ toward a goal position.
       <tr><td class="hl-cyan">Solver LLM</td><td>Claude Sonnet via OpenRouter</td><td>Code generation + self-debugging</td></tr>
       <tr><td class="hl-cyan">Oversight LLM</td><td>Claude Opus 4.6 via OpenRouter</td><td>Code review + visual verification (vision)</td></tr>
       <tr><td class="hl-cyan">PR Pipeline</td><td>git + gh CLI + ffmpeg</td><td>Skill promotion via GitHub PRs</td></tr>
+      <tr><td class="hl-cyan">Agent Framework</td><td>Claude Agent SDK</td><td>Multi-agent orchestration + tool use</td></tr>
       <tr><td class="hl-cyan">Orchestration</td><td>Python asyncio</td><td>Concurrent agent coordination</td></tr>
       <tr><td class="hl-cyan">Trajectory Format</td><td>ATIF v1.6 (JSON)</td><td>Compatible with Harbor RL framework</td></tr>
     </tbody>
   </table>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<!-- SECTION 06: INSPIRATIONS                                           -->
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<div class="section-header"><span>08</span> &mdash; Inspired By</div>
-
-<div class="panel fade-in">
-  <table>
-    <thead><tr><th>Project</th><th>What We Took</th></tr></thead>
-    <tbody>
-      <tr><td class="hl-cyan">TidyBot Universe</td><td>Skill format (SKILL.md + scripts/main.py), memory architecture</td></tr>
-      <tr><td class="hl-cyan">Harbor</td><td>bash-as-agent-interface, ATIF trajectory format for RL training</td></tr>
-      <tr><td class="hl-cyan">Voyager</td><td>LLM skill library concept (Minecraft &rarr; robotics)</td></tr>
-      <tr><td class="hl-cyan">Claude Code</td><td>Two-tool philosophy &mdash; bash + domain tool, agent decides the rest</td></tr>
-    </tbody>
-  </table>
-</div>
 
 <!-- ═══════════════════════════════════════════════════════════════════ -->
 <!-- FOOTER                                                             -->
