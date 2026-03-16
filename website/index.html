@@ -432,63 +432,63 @@ tr.highlight td { color: var(--green); }
         </div>
         <div class="hero-subtitle">Collectively Self-Improving Robot Agents</div>
         <p class="hero-desc">
-          Multiple AI agents tackle different robot tasks in parallel &mdash; writing code, running it in simulation, debugging from errors.
-          Every solved task becomes a reusable skill. The 7th task is easier than the 1st.
+          25 agents attack the same robot task in parallel across isolated sandboxes &mdash; each writing code, running it in simulation, debugging from errors.
+          First one to solve it saves the skill. Throw compute at learning, not training.
         </p>
         <div class="hero-stats">
           <div><div class="hero-stat-num">8</div><div class="hero-stat-label">Skills Learned</div></div>
           <div><div class="hero-stat-num">14</div><div class="hero-stat-label">Benchmark Tasks</div></div>
-          <div><div class="hero-stat-num">4</div><div class="hero-stat-label">Agent Types</div></div>
+          <div><div class="hero-stat-num">512x</div><div class="hero-stat-label">Faster Policy Gen</div></div>
         </div>
       </div>
 
       <div class="hero-card">
-        <div class="hero-prompt">&rsaquo; python -m rlvr.agents --tasks PullCube-v1:42 LiftPegUpright-v1:42 PickSingleYCB-v1:42<span class="term-cursor"></span></div>
+        <div class="hero-prompt">&rsaquo; python -m rlvr.agents --tasks PullCube-v1 --parallel --agents 512<span class="term-cursor"></span></div>
 
-        <!-- Multi-agent parallel view -->
+        <!-- Multi-agent parallel view: same task, many attempts -->
         <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:16px;">
 
-          <!-- Solver 1 -->
+          <!-- Sandbox 1 -->
           <div style="background:#111; border-radius:6px; padding:10px 12px; border:1px solid rgba(57,255,20,0.3);">
             <div style="display:flex; align-items:center; gap:6px; margin-bottom:8px;">
               <img src="assets/solver_agent.png" alt="" style="width:22px; height:22px; border-radius:50%; object-fit:cover;">
-              <span style="font-family:var(--font-mono); font-size:10px; color:var(--green); font-weight:700;">Solver 1</span>
+              <span style="font-family:var(--font-mono); font-size:10px; color:var(--green); font-weight:700;">Sandbox 1</span>
             </div>
-            <div style="font-family:var(--font-mono); font-size:10px; color:var(--cyan); margin-bottom:6px;">PullCube-v1</div>
+            <div style="font-family:var(--font-mono); font-size:10px; color:var(--cyan); margin-bottom:6px;">PullCube-v1 &middot; seed 42</div>
             <div class="hero-tree" style="font-size:10px;">
               <div class="tree-row"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-name">bash</span><span class="tree-dim"> study sc-pick</span><span class="tree-check">&check;</span></div>
-              <div class="tree-row"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-name">sim_exec</span><span class="tree-dim"> attempt 1</span><span class="tree-fail">&cross;</span></div>
-              <div class="tree-row"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-name">sim_exec</span><span class="tree-dim"> attempt 2</span><span class="tree-check">&check;</span></div>
-              <div class="tree-row"><span class="tree-branch">&boxur;&boxh;</span><span class="tree-name">save</span><span class="tree-dim"> sc-pull</span><span class="tree-check">&check;</span></div>
-            </div>
-          </div>
-
-          <!-- Solver 2 -->
-          <div style="background:#111; border-radius:6px; padding:10px 12px; border:1px solid rgba(57,255,20,0.3);">
-            <div style="display:flex; align-items:center; gap:6px; margin-bottom:8px;">
-              <img src="assets/solver_agent.png" alt="" style="width:22px; height:22px; border-radius:50%; object-fit:cover;">
-              <span style="font-family:var(--font-mono); font-size:10px; color:var(--green); font-weight:700;">Solver 2</span>
-            </div>
-            <div style="font-family:var(--font-mono); font-size:10px; color:var(--cyan); margin-bottom:6px;">LiftPegUpright-v1</div>
-            <div class="hero-tree" style="font-size:10px;">
-              <div class="tree-row"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-name">bash</span><span class="tree-dim"> study sc-pull</span><span class="tree-check">&check;</span></div>
               <div class="tree-row"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-name">sim_exec</span><span class="tree-dim"> attempt 1</span><span class="tree-fail">&cross;</span></div>
               <div class="tree-row"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-name">scratch</span><span class="tree-dim"> debug</span><span class="tree-think">&bull;</span></div>
               <div class="tree-row"><span class="tree-branch">&boxur;&boxh;</span><span class="tree-name">sim_exec</span><span class="tree-dim"> attempt 2</span><span class="tree-check">&check;</span></div>
             </div>
           </div>
 
-          <!-- Solver 3 -->
+          <!-- Sandbox 2 -->
           <div style="background:#111; border-radius:6px; padding:10px 12px; border:1px solid rgba(57,255,20,0.3);">
             <div style="display:flex; align-items:center; gap:6px; margin-bottom:8px;">
               <img src="assets/solver_agent.png" alt="" style="width:22px; height:22px; border-radius:50%; object-fit:cover;">
-              <span style="font-family:var(--font-mono); font-size:10px; color:var(--green); font-weight:700;">Solver 3</span>
+              <span style="font-family:var(--font-mono); font-size:10px; color:var(--green); font-weight:700;">Sandbox 2</span>
             </div>
-            <div style="font-family:var(--font-mono); font-size:10px; color:var(--cyan); margin-bottom:6px;">PickSingleYCB-v1</div>
+            <div style="font-family:var(--font-mono); font-size:10px; color:var(--cyan); margin-bottom:6px;">PullCube-v1 &middot; seed 17</div>
             <div class="hero-tree" style="font-size:10px;">
               <div class="tree-row"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-name">bash</span><span class="tree-dim"> study sc-pick</span><span class="tree-check">&check;</span></div>
+              <div class="tree-row"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-name">sim_exec</span><span class="tree-dim"> attempt 1</span><span class="tree-fail">&cross;</span></div>
+              <div class="tree-row"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-name">sim_exec</span><span class="tree-dim"> attempt 2</span><span class="tree-fail">&cross;</span></div>
+              <div class="tree-row"><span class="tree-branch">&boxur;&boxh;</span><span class="tree-name">sim_exec</span><span class="tree-dim"> attempt 3</span><span class="tree-think">&bull;</span></div>
+            </div>
+          </div>
+
+          <!-- Sandbox 3 -->
+          <div style="background:#111; border-radius:6px; padding:10px 12px; border:1px solid rgba(57,255,20,0.3);">
+            <div style="display:flex; align-items:center; gap:6px; margin-bottom:8px;">
+              <img src="assets/solver_agent.png" alt="" style="width:22px; height:22px; border-radius:50%; object-fit:cover;">
+              <span style="font-family:var(--font-mono); font-size:10px; color:var(--green); font-weight:700;">Sandbox 3</span>
+            </div>
+            <div style="font-family:var(--font-mono); font-size:10px; color:var(--cyan); margin-bottom:6px;">PullCube-v1 &middot; seed 99</div>
+            <div class="hero-tree" style="font-size:10px;">
+              <div class="tree-row"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-name">bash</span><span class="tree-dim"> study sc-push</span><span class="tree-check">&check;</span></div>
               <div class="tree-row"><span class="tree-branch">&boxvr;&boxh;</span><span class="tree-name">sim_exec</span><span class="tree-dim"> attempt 1</span><span class="tree-check">&check;</span></div>
-              <div class="tree-row"><span class="tree-branch">&boxur;&boxh;</span><span class="tree-name">save</span><span class="tree-dim"> sc-pick-ycb</span><span class="tree-check">&check;</span></div>
+              <div class="tree-row"><span class="tree-branch">&boxur;&boxh;</span><span class="tree-name">save</span><span class="tree-dim"> sc-pull</span><span class="tree-check">&check;</span></div>
             </div>
           </div>
 
@@ -509,10 +509,10 @@ tr.highlight td { color: var(--green); }
             <!-- Lane 1: left column -->
             <!-- Arrow down from solver card -->
             <line x1="100" y1="0" x2="100" y2="28" stroke="#555" stroke-width="1.5" marker-end="url(#ahDim)"/>
-            <!-- PR agent -->
+            <!-- Code Policy Agent -->
             <circle cx="100" cy="46" r="16" fill="#111" stroke="#00E5FF" stroke-width="1.5"/>
             <image href="assets/pr_agent.png" x="82" y="28" width="36" height="36" clip-path="circle(16px at 18px 18px)" style="clip-path:circle(16px at 18px 18px);"/>
-            <text x="100" y="74" fill="#00E5FF" font-family="Space Mono, monospace" font-size="8" text-anchor="middle">PR</text>
+            <text x="100" y="74" fill="#00E5FF" font-family="Space Mono, monospace" font-size="8" text-anchor="middle">Code Policy Agent</text>
             <!-- Arrow down -->
             <line x1="100" y1="82" x2="100" y2="98" stroke="#555" stroke-width="1.5" marker-end="url(#ahDim)"/>
             <!-- Oversight agent -->
@@ -524,7 +524,7 @@ tr.highlight td { color: var(--green); }
             <line x1="300" y1="0" x2="300" y2="28" stroke="#555" stroke-width="1.5" marker-end="url(#ahDim)"/>
             <circle cx="300" cy="46" r="16" fill="#111" stroke="#00E5FF" stroke-width="1.5"/>
             <image href="assets/pr_agent.png" x="282" y="28" width="36" height="36" style="clip-path:circle(16px at 18px 18px);"/>
-            <text x="300" y="74" fill="#00E5FF" font-family="Space Mono, monospace" font-size="8" text-anchor="middle">PR</text>
+            <text x="300" y="74" fill="#00E5FF" font-family="Space Mono, monospace" font-size="8" text-anchor="middle">Code Policy Agent</text>
             <line x1="300" y1="82" x2="300" y2="98" stroke="#555" stroke-width="1.5" marker-end="url(#ahDim)"/>
             <circle cx="300" cy="116" r="16" fill="#111" stroke="#c084fc" stroke-width="1.5"/>
             <image href="assets/oversight_agent.png" x="282" y="98" width="36" height="36" style="clip-path:circle(16px at 18px 18px);"/>
@@ -534,7 +534,7 @@ tr.highlight td { color: var(--green); }
             <line x1="500" y1="0" x2="500" y2="28" stroke="#555" stroke-width="1.5" marker-end="url(#ahDim)"/>
             <circle cx="500" cy="46" r="16" fill="#111" stroke="#00E5FF" stroke-width="1.5"/>
             <image href="assets/pr_agent.png" x="482" y="28" width="36" height="36" style="clip-path:circle(16px at 18px 18px);"/>
-            <text x="500" y="74" fill="#00E5FF" font-family="Space Mono, monospace" font-size="8" text-anchor="middle">PR</text>
+            <text x="500" y="74" fill="#00E5FF" font-family="Space Mono, monospace" font-size="8" text-anchor="middle">Code Policy Agent</text>
             <line x1="500" y1="82" x2="500" y2="98" stroke="#555" stroke-width="1.5" marker-end="url(#ahDim)"/>
             <circle cx="500" cy="116" r="16" fill="#111" stroke="#c084fc" stroke-width="1.5"/>
             <image href="assets/oversight_agent.png" x="482" y="98" width="36" height="36" style="clip-path:circle(16px at 18px 18px);"/>
@@ -560,9 +560,9 @@ tr.highlight td { color: var(--green); }
 <div class="container">
 
 <!-- ═══════════════════════════════════════════════════════════════════ -->
-<!-- SECTION 01: THE PROBLEM                                            -->
+<!-- SECTION 01: PROBLEM + SOLUTION                                     -->
 <!-- ═══════════════════════════════════════════════════════════════════ -->
-<div class="section-header"><span>01</span> &mdash; The Problem</div>
+<div class="section-header"><span>01</span> &mdash; The Problem &amp; The Solution</div>
 
 <div class="panel fade-in">
   <div class="panel-title">Traditional robot learning starts from zero. Every time.</div>
@@ -589,164 +589,7 @@ tr.highlight td { color: var(--green); }
     </div>
   </div>
 
-  <p style="color:var(--text-dim); font-size:13px; margin-top:24px; line-height:1.6; font-style:italic;">
-    Traditional approach: knowledge doesn't compound. Every new task is day zero.
-  </p>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<!-- SECTION 02: THE INVERSION                                          -->
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<div class="section-header"><span>02</span> &mdash; The Inversion</div>
-
-<!-- Agent Loop -->
-<div class="panel fade-in">
-  <div class="window-dots">
-    <div class="dot dot-red"></div>
-    <div class="dot dot-yellow"></div>
-    <div class="dot dot-green"></div>
-  </div>
-  <div class="panel-title">What if we let a coding agent figure out the physics by itself?</div>
-
-  <p style="color:var(--text-dim); font-size:14px; line-height:1.6; margin-bottom:20px;">
-    Give it building blocks, tools, and an environment. It tries, it fails, it learns from the failure, it tries again. Eventually it works.
-  </p>
-
-  <div class="code-block">
-<span class="cmt"># The agent has two tools. It decides everything else.</span>
-
-<span class="kw">1. STUDY</span>    <span class="fn">bash</span>(<span class="str">"cat brains/shared_brain/README.md"</span>)      <span class="cmt">&rarr; read framework docs</span>
-           <span class="fn">bash</span>(<span class="str">"cat skills/sc-pick/scripts/main.py"</span>)    <span class="cmt">&rarr; study existing skills</span>
-
-<span class="kw">2. WRITE</span>    <span class="fn">bash</span>(<span class="str">"cat > dev-sc-pull/scripts/main.py"</span>)     <span class="cmt">&rarr; write solve() function</span>
-
-<span class="kw">3. EXECUTE</span>  <span class="fn">sim_exec</span>(code)                                <span class="cmt">&rarr; run on GPU sim (ManiSkill3)</span>
-           <span class="cmt"># returns: state_before, state_after, reward, error, video</span>
-
-<span class="kw">4. DEBUG</span>    <span class="fn">bash</span>(<span class="str">"cat >> scratch.md"</span>)                      <span class="cmt">&rarr; reason about what went wrong</span>
-           <span class="cmt"># "cube moved +0.12 but goal is -0.15 &mdash; approaching from wrong side"</span>
-
-<span class="kw">5. SAVE</span>     skill &rarr; brains/private_brain/ &rarr; PR &rarr; brains/shared_brain/
-  </div>
-
-  <p style="color:var(--green); font-family:var(--font-mono); font-size:11px; margin-top:16px;">
-    Typical solve: 1&ndash;4 sim_exec attempts. The agent reads errors and state diffs to self-correct.
-  </p>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<!-- SECTION 03: THE COLLECTIVE                                         -->
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<div class="section-header"><span>03</span> &mdash; The Collective</div>
-
-<!-- Multi-Agent Architecture -->
-<div class="panel fade-in">
-  <div class="panel-title">Multiple agents, different tasks, in parallel. Each writes to its own private brain. When a skill works, it gets promoted to the shared brain.</div>
-
-  <div class="agent-grid">
-    <div class="agent-card solver">
-      <img class="agent-avatar" src="assets/solver_agent.png" alt="Solver Agent">
-      <div class="agent-name">Solver Agent</div>
-      <div class="agent-model">Claude Sonnet</div>
-      <p>Solves tasks via ReAct loop. Reads skills, writes code, debugs via state diffs. Runs in parallel.</p>
-      <div class="agent-tools">
-        <span class="agent-tool">bash</span>
-        <span class="agent-tool">sim_exec</span>
-      </div>
-    </div>
-    <div class="agent-card pr">
-      <img class="agent-avatar" src="assets/pr_agent.png" alt="PR Agent">
-      <div class="agent-name">PR Agent</div>
-      <div class="agent-model">No LLM</div>
-      <p>Renders the solver's actual trajectory into a rich PR. Converts video to GIF. Pure git + gh.</p>
-      <div class="agent-tools">
-        <span class="agent-tool">git</span>
-        <span class="agent-tool">gh</span>
-        <span class="agent-tool">ffmpeg</span>
-      </div>
-    </div>
-    <div class="agent-card oversight">
-      <img class="agent-avatar" src="assets/oversight_agent.png" alt="Oversight Agent">
-      <div class="agent-name">Oversight Agent</div>
-      <div class="agent-model">Claude Opus 4.6</div>
-      <p>Reviews code quality + watches the demo GIF. Checks for hardcoded values, framework usage, error handling.</p>
-      <div class="agent-tools">
-        <span class="agent-tool">gh pr diff</span>
-        <span class="agent-tool">gh pr review</span>
-        <span class="agent-tool">vision</span>
-      </div>
-    </div>
-    <div class="agent-card orchestrator">
-      <img class="agent-avatar" src="assets/ochestrator_agent.png" alt="Orchestrator">
-      <div class="agent-name">Orchestrator</div>
-      <div class="agent-model">No LLM</div>
-      <p>Launches all agents concurrently. Manages asyncio queues between solver, PR, and oversight.</p>
-      <div class="agent-tools">
-        <span class="agent-tool">asyncio</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Data flow -->
-  <div class="flow-row" style="margin-top: 20px;">
-    <div class="flow-box active">Solver</div>
-    <div class="flow-queue">&rarr; pr_queue &rarr;</div>
-    <div class="flow-box cyan">PR Agent</div>
-    <div class="flow-queue">&rarr; review_queue &rarr;</div>
-    <div class="flow-box purple">Oversight</div>
-    <div class="flow-arrow">&rarr;</div>
-    <div class="flow-box" style="border-color:var(--amber); color:var(--amber);">merge</div>
-  </div>
-</div>
-
-<!-- Brain Architecture -->
-<div class="panel fade-in">
-  <div class="window-dots">
-    <div class="dot dot-red"></div>
-    <div class="dot dot-yellow"></div>
-    <div class="dot dot-green"></div>
-  </div>
-  <div class="panel-title">Two Brains &mdash; Private Workspace + Shared Library</div>
-
-  <div class="vs-layout">
-    <div class="vs-box left" style="border-top-color: var(--amber);">
-      <div class="vs-box-title" style="color: var(--amber);">Private Brain</div>
-      <ul class="vs-list">
-        <li>Per-agent workspace</li>
-        <li>Skills in development (dev-sc-*)</li>
-        <li>scratch.md &mdash; agent's thinking notebook</li>
-        <li>Visible to one solver only</li>
-      </ul>
-    </div>
-    <div class="vs-arrow" style="color:var(--green);">&rarr;<br><span style="font-size:10px; font-family:var(--font-mono); color:var(--text-dim);">PR</span></div>
-    <div class="vs-box right">
-      <div class="vs-box-title">Shared Brain</div>
-      <ul class="vs-list">
-        <li>Published, approved skills (sc-*)</li>
-        <li>Framework docs + API reference</li>
-        <li>Debug patterns from past failures</li>
-        <li>Available to all agents</li>
-      </ul>
-    </div>
-  </div>
-
-  <p style="color:var(--text-dim); font-size:13px; margin-top:20px; line-height:1.6;">
-    When a solver succeeds, its skill gets promoted: private brain &rarr; PR with trajectory + GIF &rarr; Opus reviews &rarr; merge to shared brain. The next agent can read it.
-  </p>
-
-  <p style="color:var(--green); font-family:var(--font-mono); font-size:12px; margin-top:16px; font-style:italic;">
-    "Every task any agent solves makes every future agent better. The skill library is the flywheel."
-  </p>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<!-- SECTION 04: THE COMPOUNDING                                        -->
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<div class="section-header"><span>04</span> &mdash; The Compounding</div>
-
-<!-- Skills in Action -->
-<div class="panel fade-in">
-  <div class="panel-title">Skills compose. The agent reads existing skills, combines them, and solves novel tasks.</div>
+  <div class="panel-title" style="margin-top:32px;">Skills compose. The agent reads existing skills, combines them, and solves novel tasks.</div>
 
   <div class="demo-grid">
     <div class="demo-card">
@@ -754,7 +597,7 @@ tr.highlight td { color: var(--green); }
       <div class="demo-info">
         <div class="demo-skill">sc-pull</div>
         <div class="demo-desc">Pull a cube onto a target. The agent learned to approach from the near side, grasp, and drag to the goal.</div>
-        <a class="demo-link" href="https://github.com/lilyzhng/SkillClaw/pull/9" target="_blank" rel="noopener">View PR &rarr;</a>
+        <a class="demo-link" href="https://github.com/lilyzhng/SkillClaw/pull/9" target="_blank" rel="noopener">View PR Generated by SkillClaw Agent &rarr;</a>
       </div>
     </div>
     <div class="demo-card">
@@ -762,7 +605,7 @@ tr.highlight td { color: var(--green); }
       <div class="demo-info">
         <div class="demo-skill">sc-lift-peg-upright</div>
         <div class="demo-desc">Move a peg laying on the table to any upright position. Side grasp + controlled rotation.</div>
-        <a class="demo-link" href="https://github.com/lilyzhng/SkillClaw/pull/13" target="_blank" rel="noopener">View PR &rarr;</a>
+        <a class="demo-link" href="https://github.com/lilyzhng/SkillClaw/pull/13" target="_blank" rel="noopener">View Skill Generated by SkillClaw Agent &rarr;</a>
       </div>
     </div>
     <div class="demo-card">
@@ -777,7 +620,7 @@ tr.highlight td { color: var(--green); }
       <div class="demo-info">
         <div class="demo-skill">sc-pick-ycb</div>
         <div class="demo-desc">Pick up a real-world YCB object. Solved on first attempt by adapting the sc-pick pattern.</div>
-        <a class="demo-link" href="https://github.com/lilyzhng/SkillClaw/pull/14" target="_blank" rel="noopener">View PR &rarr;</a>
+        <a class="demo-link" href="https://github.com/lilyzhng/SkillClaw/pull/14" target="_blank" rel="noopener">View PR Generated by SkillClaw Agent &rarr;</a>
       </div>
     </div>
     <div class="demo-card">
@@ -795,30 +638,6 @@ tr.highlight td { color: var(--green); }
       </div>
     </div>
   </div>
-</div>
-
-<!-- Flywheel Results -->
-<div class="panel fade-in">
-  <div class="window-dots">
-    <div class="dot dot-red"></div>
-    <div class="dot dot-yellow"></div>
-    <div class="dot dot-green"></div>
-  </div>
-  <div class="panel-title">The Flywheel &mdash; Skills Compound</div>
-
-  <table>
-    <thead><tr><th>Task</th><th>Difficulty</th><th>Skills Available</th><th>Result</th></tr></thead>
-    <tbody>
-      <tr><td class="hl-cyan">PickCube</td><td>Easy</td><td>0 (cold start)</td><td class="hl">Solved</td></tr>
-      <tr><td class="hl-cyan">PushCube</td><td>Easy</td><td>1 (sc-pick)</td><td class="hl">Solved</td></tr>
-      <tr><td class="hl-cyan">StackCube</td><td>Medium</td><td>2 (sc-pick, sc-push)</td><td class="hl">Solved &mdash; reused sc-pick</td></tr>
-      <tr><td class="hl-cyan">PegInsertionSide</td><td>Hard</td><td>3</td><td class="hl">Solved &mdash; sub-mm precision</td></tr>
-    </tbody>
-  </table>
-
-  <p style="color:var(--green); font-family:var(--font-mono); font-size:11px; margin-top:16px;">
-    Flywheel mode: 4 tasks, 1/4 &rarr; 4/4 solved. Each success feeds the next.
-  </p>
 </div>
 
 <!-- ── Subsection: Kitchen — Collision Free Motion Planning ── -->
@@ -884,6 +703,115 @@ tr.highlight td { color: var(--green); }
     </div>
   </div>
 </div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 03: THE COLLECTIVE                                         -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section-header"><span>03</span> &mdash; The Collective</div>
+
+<!-- Multi-Agent Architecture -->
+<div class="panel fade-in">
+  <div class="panel-title">Multiple agents, same task, in parallel across sandboxes.</div>
+  <div style="font-size:36px; font-weight:800; color:var(--green); font-family:var(--font-mono); margin:20px 0; letter-spacing:-1px;">512x Faster Policy Generation</div>
+
+  <div class="agent-grid">
+    <div class="agent-card solver">
+      <img class="agent-avatar" src="assets/solver_agent.png" alt="Solver Agent">
+      <div class="agent-name">Solver Agent</div>
+      <div class="agent-model">Claude Sonnet</div>
+      <p>Solves tasks via ReAct loop. Reads skills, writes code, debugs via state diffs. Many instances attack the same task in parallel.</p>
+      <div class="agent-tools">
+        <span class="agent-tool">bash</span>
+        <span class="agent-tool">sim_exec</span>
+      </div>
+    </div>
+    <div class="agent-card pr">
+      <img class="agent-avatar" src="assets/pr_agent.png" alt="Code Policy Agent">
+      <div class="agent-name">Code Policy Agent</div>
+      <div class="agent-model">No LLM</div>
+      <p>Renders the solver's actual trajectory into a rich PR. Converts video to GIF. Pure git + gh.</p>
+      <div class="agent-tools">
+        <span class="agent-tool">git</span>
+        <span class="agent-tool">gh</span>
+        <span class="agent-tool">ffmpeg</span>
+      </div>
+    </div>
+    <div class="agent-card oversight">
+      <img class="agent-avatar" src="assets/oversight_agent.png" alt="Oversight Agent">
+      <div class="agent-name">Oversight Agent</div>
+      <div class="agent-model">Claude Opus 4.6</div>
+      <p>Reviews code quality + watches the demo GIF. Checks for hardcoded values, framework usage, error handling.</p>
+      <div class="agent-tools">
+        <span class="agent-tool">gh pr diff</span>
+        <span class="agent-tool">gh pr review</span>
+        <span class="agent-tool">vision</span>
+      </div>
+    </div>
+    <div class="agent-card orchestrator">
+      <img class="agent-avatar" src="assets/ochestrator_agent.png" alt="Orchestrator">
+      <div class="agent-name">Orchestrator</div>
+      <div class="agent-model">No LLM</div>
+      <p>Launches all agents concurrently. Manages asyncio queues between solver, PR, and oversight.</p>
+      <div class="agent-tools">
+        <span class="agent-tool">asyncio</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Data flow -->
+  <div class="flow-row" style="margin-top: 20px;">
+    <div class="flow-box active">Solver</div>
+    <div class="flow-queue">&rarr; pr_queue &rarr;</div>
+    <div class="flow-box cyan">Code Policy Agent</div>
+    <div class="flow-queue">&rarr; review_queue &rarr;</div>
+    <div class="flow-box purple">Oversight</div>
+    <div class="flow-arrow">&rarr;</div>
+    <div class="flow-box" style="border-color:var(--amber); color:var(--amber);">merge</div>
+  </div>
+</div>
+
+<!-- Brain Architecture -->
+<details class="section-collapse">
+<summary class="panel fade-in" style="cursor:pointer; list-style:none;">
+  <div class="window-dots">
+    <div class="dot dot-red"></div>
+    <div class="dot dot-yellow"></div>
+    <div class="dot dot-green"></div>
+  </div>
+  <div class="panel-title">Two Brains &mdash; Private Workspace + Shared Library <span style="font-size:12px; color:var(--text-dim);">&#9654;</span></div>
+</summary>
+<div class="panel" style="margin-top:-12px; border-top:none; border-top-left-radius:0; border-top-right-radius:0;">
+  <div class="vs-layout">
+    <div class="vs-box left" style="border-top-color: var(--amber);">
+      <div class="vs-box-title" style="color: var(--amber);">Private Brain</div>
+      <ul class="vs-list">
+        <li>Per-agent workspace</li>
+        <li>Skills in development (dev-sc-*)</li>
+        <li>scratch.md &mdash; agent's thinking notebook</li>
+        <li>Visible to one solver only</li>
+      </ul>
+    </div>
+    <div class="vs-arrow" style="color:var(--green);">&rarr;<br><span style="font-size:10px; font-family:var(--font-mono); color:var(--text-dim);">PR</span></div>
+    <div class="vs-box right">
+      <div class="vs-box-title">Shared Brain</div>
+      <ul class="vs-list">
+        <li>Published, approved skills (sc-*)</li>
+        <li>Framework docs + API reference</li>
+        <li>Debug patterns from past failures</li>
+        <li>Available to all agents</li>
+      </ul>
+    </div>
+  </div>
+
+  <p style="color:var(--text-dim); font-size:13px; margin-top:20px; line-height:1.6;">
+    When a solver succeeds, its skill gets promoted: private brain &rarr; PR with trajectory + GIF &rarr; Opus reviews &rarr; merge to shared brain. The next agent can read it.
+  </p>
+
+  <p style="color:var(--green); font-family:var(--font-mono); font-size:12px; margin-top:16px; font-style:italic;">
+    "Every task any agent solves makes every future agent better. The skill library is the flywheel."
+  </p>
+</div>
+</details>
 
 <!-- ═══════════════════════════════════════════════════════════════════ -->
 <!-- SECTION 05: RESULTS                                                -->
@@ -963,9 +891,86 @@ tr.highlight td { color: var(--green); }
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 07: BUILT WITH                                             -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section-header"><span>07</span> &mdash; Built With</div>
+
+<div class="panel fade-in">
+  <div class="panel-title">Infrastructure</div>
+
+  <div class="sponsor-grid">
+    <div class="sponsor-card primary">
+      <div class="sponsor-name">Nebius</div>
+      <div class="sponsor-role">GPU Cloud &mdash; ManiSkill3 simulation server</div>
+    </div>
+    <div class="sponsor-card" style="border-color:var(--cyan);">
+      <div class="sponsor-name" style="color:var(--cyan)">OpenRouter</div>
+      <div class="sponsor-role">LLM API &mdash; Claude Sonnet (solver) + Opus 4.6 (oversight)</div>
+    </div>
+  </div>
+
+  <table style="margin-top: 20px;">
+    <thead><tr><th>Component</th><th>Technology</th><th>Role</th></tr></thead>
+    <tbody>
+      <tr><td class="hl-cyan">Simulation</td><td>ManiSkill3 (NVIDIA PhysX)</td><td>GPU-parallel robot simulation</td></tr>
+      <tr><td class="hl-cyan">Solver LLM</td><td>Claude Sonnet via OpenRouter</td><td>Code generation + self-debugging</td></tr>
+      <tr><td class="hl-cyan">Oversight LLM</td><td>Claude Opus 4.6 via OpenRouter</td><td>Code review + visual verification (vision)</td></tr>
+      <tr><td class="hl-cyan">PR Pipeline</td><td>git + gh CLI + ffmpeg</td><td>Skill promotion via GitHub PRs</td></tr>
+      <tr><td class="hl-cyan">Agent Framework</td><td>Claude Agent SDK</td><td>Multi-agent orchestration + tool use</td></tr>
+      <tr><td class="hl-cyan">Orchestration</td><td>Python asyncio</td><td>Concurrent agent coordination</td></tr>
+      <tr><td class="hl-cyan">Trajectory Format</td><td>ATIF v1.6 (JSON)</td><td>Compatible with Harbor RL framework</td></tr>
+    </tbody>
+  </table>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- SECTION: THE INVERSION (details)                                   -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<details class="section-collapse">
+<summary class="section-header" style="cursor:pointer;">The Inversion &mdash; How a Single Agent Learns</summary>
+
+<!-- Agent Loop -->
+<div class="panel fade-in">
+  <div class="window-dots">
+    <div class="dot dot-red"></div>
+    <div class="dot dot-yellow"></div>
+    <div class="dot dot-green"></div>
+  </div>
+  <div class="panel-title">What if we let a coding agent figure out the physics by itself?</div>
+
+  <p style="color:var(--text-dim); font-size:14px; line-height:1.6; margin-bottom:20px;">
+    Give it building blocks, tools, and an environment. It tries, it fails, it learns from the failure, it tries again. Eventually it works.
+  </p>
+
+  <div class="code-block">
+<span class="cmt"># The agent has two tools. It decides everything else.</span>
+
+<span class="kw">1. STUDY</span>    <span class="fn">bash</span>(<span class="str">"cat brains/shared_brain/README.md"</span>)      <span class="cmt">&rarr; read framework docs</span>
+           <span class="fn">bash</span>(<span class="str">"cat skills/sc-pick/scripts/main.py"</span>)    <span class="cmt">&rarr; study existing skills</span>
+
+<span class="kw">2. WRITE</span>    <span class="fn">bash</span>(<span class="str">"cat > dev-sc-pull/scripts/main.py"</span>)     <span class="cmt">&rarr; write solve() function</span>
+
+<span class="kw">3. EXECUTE</span>  <span class="fn">sim_exec</span>(code)                                <span class="cmt">&rarr; run on GPU sim (ManiSkill3)</span>
+           <span class="cmt"># returns: state_before, state_after, reward, error, video</span>
+
+<span class="kw">4. DEBUG</span>    <span class="fn">bash</span>(<span class="str">"cat >> scratch.md"</span>)                      <span class="cmt">&rarr; reason about what went wrong</span>
+           <span class="cmt"># "cube moved +0.12 but goal is -0.15 &mdash; approaching from wrong side"</span>
+
+<span class="kw">5. SAVE</span>     skill &rarr; brains/private_brain/ &rarr; PR &rarr; brains/shared_brain/
+  </div>
+
+  <p style="color:var(--green); font-family:var(--font-mono); font-size:11px; margin-top:16px;">
+    Typical solve: 1&ndash;4 sim_exec attempts. The agent reads errors and state diffs to self-correct.
+  </p>
+</div>
+</details>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
 <!-- SECTION 06: THE SKILL FORMAT                                       -->
 <!-- ═══════════════════════════════════════════════════════════════════ -->
-<div class="section-header"><span>06</span> &mdash; What a Skill Looks Like</div>
+<details class="section-collapse">
+<summary class="section-header" style="cursor:pointer;"><span>06</span> &mdash; What a Skill Looks Like</summary>
 
 <div class="panel fade-in">
   <div class="window-dots">
@@ -1034,40 +1039,7 @@ toward a goal position.
     </div>
   </div>
 </div>
-
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<!-- SECTION 07: BUILT WITH                                             -->
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<div class="section-header"><span>07</span> &mdash; Built With</div>
-
-<div class="panel fade-in">
-  <div class="panel-title">Infrastructure</div>
-
-  <div class="sponsor-grid">
-    <div class="sponsor-card primary">
-      <div class="sponsor-name">Nebius</div>
-      <div class="sponsor-role">GPU Cloud &mdash; ManiSkill3 simulation server</div>
-    </div>
-    <div class="sponsor-card" style="border-color:var(--cyan);">
-      <div class="sponsor-name" style="color:var(--cyan)">OpenRouter</div>
-      <div class="sponsor-role">LLM API &mdash; Claude Sonnet (solver) + Opus 4.6 (oversight)</div>
-    </div>
-  </div>
-
-  <table style="margin-top: 20px;">
-    <thead><tr><th>Component</th><th>Technology</th><th>Role</th></tr></thead>
-    <tbody>
-      <tr><td class="hl-cyan">Simulation</td><td>ManiSkill3 (NVIDIA PhysX)</td><td>GPU-parallel robot simulation</td></tr>
-      <tr><td class="hl-cyan">Solver LLM</td><td>Claude Sonnet via OpenRouter</td><td>Code generation + self-debugging</td></tr>
-      <tr><td class="hl-cyan">Oversight LLM</td><td>Claude Opus 4.6 via OpenRouter</td><td>Code review + visual verification (vision)</td></tr>
-      <tr><td class="hl-cyan">PR Pipeline</td><td>git + gh CLI + ffmpeg</td><td>Skill promotion via GitHub PRs</td></tr>
-      <tr><td class="hl-cyan">Agent Framework</td><td>Claude Agent SDK</td><td>Multi-agent orchestration + tool use</td></tr>
-      <tr><td class="hl-cyan">Orchestration</td><td>Python asyncio</td><td>Concurrent agent coordination</td></tr>
-      <tr><td class="hl-cyan">Trajectory Format</td><td>ATIF v1.6 (JSON)</td><td>Compatible with Harbor RL framework</td></tr>
-    </tbody>
-  </table>
-</div>
-
+</details>
 
 <!-- ═══════════════════════════════════════════════════════════════════ -->
 <!-- FOOTER                                                             -->
