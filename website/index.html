@@ -296,6 +296,11 @@ tr.highlight td { color: var(--green); }
   .demo-grid { grid-template-columns: 1fr !important; }
 }
 
+/* Viewport meta is set in head; ensure sandbox grid stacks */
+@media (max-width: 640px) {
+  .sandbox-grid { grid-template-columns: 1fr !important; }
+}
+
 /* ══════════════════════════════════════════════ */
 /* CODE BLOCK                                    */
 /* ══════════════════════════════════════════════ */
@@ -377,11 +382,20 @@ tr.highlight td { color: var(--green); }
   .agent-grid { grid-template-columns: 1fr 1fr; }
   .skill-grid { grid-template-columns: 1fr 1fr; }
   .sponsor-grid { grid-template-columns: 1fr 1fr; }
+  .demo-grid { grid-template-columns: 1fr 1fr; }
   .teaser { padding: 40px 20px 36px; }
   .panel { padding: 24px 20px; }
   .inline-grid-2 { grid-template-columns: 1fr !important; }
   .flow-row { flex-wrap: wrap; gap: 8px; }
   .video-grid-2 { grid-template-columns: 1fr !important; }
+}
+@media (max-width: 640px) {
+  .demo-grid { grid-template-columns: 1fr; }
+  .demo-card { flex-direction: column; }
+  .demo-card img { width: 100%; max-width: 100%; }
+  .agent-grid { grid-template-columns: 1fr; }
+  .skill-grid { grid-template-columns: 1fr; }
+  .sponsor-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 480px) {
   .container { padding: 0 12px; }
@@ -394,15 +408,12 @@ tr.highlight td { color: var(--green); }
   .hero-stat-num { font-size: 24px; }
   .hero-title-row { flex-wrap: wrap; }
   .claw-kaomoji { font-size: 18px; width: auto; }
-  .hero-card { padding: 16px 14px; }
-  .hero-prompt { font-size: 12px; word-break: break-all; }
+  .hero-card { padding: 16px 14px; overflow-x: auto; }
+  .hero-prompt { font-size: 11px; word-break: break-all; white-space: nowrap; overflow-x: auto; }
   .hero-tree { font-size: 11px; overflow-x: auto; }
   .hero-pipeline { font-size: 10px; gap: 0; }
   .hero-pipe-step { padding: 4px 6px; font-size: 10px; }
   .hero-pipe-arrow { padding: 0 3px; }
-  .agent-grid { grid-template-columns: 1fr; }
-  .skill-grid { grid-template-columns: 1fr 1fr; }
-  .sponsor-grid { grid-template-columns: 1fr; }
   .code-block { padding: 14px 12px; font-size: 11px; overflow-x: auto; white-space: pre; }
   .section-header { font-size: 11px; letter-spacing: 2px; }
   table { font-size: 11px; display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
@@ -442,7 +453,7 @@ tr.highlight td { color: var(--green); }
         <div class="hero-prompt">&rsaquo; bash(&quot;python -m rlvr.agents --tasks PullCube-v1 --parallel --agents 512&quot;)<span class="term-cursor"></span></div>
 
         <!-- Multi-agent parallel view: same task, many attempts -->
-        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:16px;">
+        <div class="sandbox-grid" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:16px;">
 
           <!-- Sandbox 1 -->
           <div style="background:#111; border-radius:6px; padding:10px 12px; border:1px solid rgba(57,255,20,0.3);">
