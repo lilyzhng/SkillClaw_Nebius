@@ -810,9 +810,43 @@ tr.highlight td { color: var(--green); }
 </details>
 
 <!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- SECTION 07: BUILT WITH                                             -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="section-header"><span>07</span> &mdash; Built With</div>
+
+<div class="panel fade-in">
+  <div class="panel-title">Infrastructure</div>
+
+  <div class="sponsor-grid">
+    <div class="sponsor-card primary">
+      <div class="sponsor-name">Nebius</div>
+      <div class="sponsor-role">GPU Cloud &mdash; ManiSkill3 simulation server</div>
+    </div>
+    <div class="sponsor-card" style="border-color:var(--cyan);">
+      <div class="sponsor-name" style="color:var(--cyan)">OpenRouter</div>
+      <div class="sponsor-role">LLM API &mdash; Claude Sonnet (solver) + Opus 4.6 (oversight)</div>
+    </div>
+  </div>
+
+  <table style="margin-top: 20px;">
+    <thead><tr><th>Component</th><th>Technology</th><th>Role</th></tr></thead>
+    <tbody>
+      <tr><td class="hl-cyan">Simulation</td><td>ManiSkill3 (NVIDIA PhysX)</td><td>GPU-parallel robot simulation</td></tr>
+      <tr><td class="hl-cyan">Solver LLM</td><td>Claude Sonnet via OpenRouter</td><td>Code generation + self-debugging</td></tr>
+      <tr><td class="hl-cyan">Oversight LLM</td><td>Claude Opus 4.6 via OpenRouter</td><td>Code review + visual verification (vision)</td></tr>
+      <tr><td class="hl-cyan">PR Pipeline</td><td>git + gh CLI + ffmpeg</td><td>Skill promotion via GitHub PRs</td></tr>
+      <tr><td class="hl-cyan">Agent Framework</td><td>Claude Agent SDK</td><td>Multi-agent orchestration + tool use</td></tr>
+      <tr><td class="hl-cyan">Orchestration</td><td>Python asyncio</td><td>Concurrent agent coordination</td></tr>
+      <tr><td class="hl-cyan">Trajectory Format</td><td>ATIF v1.6 (JSON)</td><td>Compatible with Harbor RL framework</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
 <!-- SECTION 05: RESULTS                                                -->
 <!-- ═══════════════════════════════════════════════════════════════════ -->
-<div class="section-header"><span>05</span> &mdash; Results</div>
+<details class="section-collapse">
+<summary class="section-header" style="cursor:pointer;"><span>05</span> &mdash; Results</summary>
 
 <!-- Skills Learned -->
 <div class="panel fade-in">
@@ -885,40 +919,7 @@ tr.highlight td { color: var(--green); }
     The kitchen uses a completely different robot (mobile base + Panda arm). Same agent loop, same two tools. No retraining.
   </p>
 </div>
-
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<!-- SECTION 07: BUILT WITH                                             -->
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<div class="section-header"><span>07</span> &mdash; Built With</div>
-
-<div class="panel fade-in">
-  <div class="panel-title">Infrastructure</div>
-
-  <div class="sponsor-grid">
-    <div class="sponsor-card primary">
-      <div class="sponsor-name">Nebius</div>
-      <div class="sponsor-role">GPU Cloud &mdash; ManiSkill3 simulation server</div>
-    </div>
-    <div class="sponsor-card" style="border-color:var(--cyan);">
-      <div class="sponsor-name" style="color:var(--cyan)">OpenRouter</div>
-      <div class="sponsor-role">LLM API &mdash; Claude Sonnet (solver) + Opus 4.6 (oversight)</div>
-    </div>
-  </div>
-
-  <table style="margin-top: 20px;">
-    <thead><tr><th>Component</th><th>Technology</th><th>Role</th></tr></thead>
-    <tbody>
-      <tr><td class="hl-cyan">Simulation</td><td>ManiSkill3 (NVIDIA PhysX)</td><td>GPU-parallel robot simulation</td></tr>
-      <tr><td class="hl-cyan">Solver LLM</td><td>Claude Sonnet via OpenRouter</td><td>Code generation + self-debugging</td></tr>
-      <tr><td class="hl-cyan">Oversight LLM</td><td>Claude Opus 4.6 via OpenRouter</td><td>Code review + visual verification (vision)</td></tr>
-      <tr><td class="hl-cyan">PR Pipeline</td><td>git + gh CLI + ffmpeg</td><td>Skill promotion via GitHub PRs</td></tr>
-      <tr><td class="hl-cyan">Agent Framework</td><td>Claude Agent SDK</td><td>Multi-agent orchestration + tool use</td></tr>
-      <tr><td class="hl-cyan">Orchestration</td><td>Python asyncio</td><td>Concurrent agent coordination</td></tr>
-      <tr><td class="hl-cyan">Trajectory Format</td><td>ATIF v1.6 (JSON)</td><td>Compatible with Harbor RL framework</td></tr>
-    </tbody>
-  </table>
-</div>
-
+</details>
 
 <!-- ═══════════════════════════════════════════════════════════════════ -->
 <!-- SECTION: THE INVERSION (details)                                   -->
